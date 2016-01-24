@@ -1,0 +1,63 @@
+<dummy>
+<Annotations xmlns="" Target="SERVICE_REQUEST.ServiceRequest">
+  <Annotation Term="UI.LeadBO">
+      <Record>
+         <PropertyValue Property="IsLeadBO" Value="TRUE" /> 
+      </Record>
+  </Annotation>
+  <Annotation Term="UI.LineItem">
+      <Collection>
+          <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="ID" /> 
+              <PropertyValue Property="Value" Path="ID" /> 
+              <PropertyValue Property="DisplayType" Value="Link" /> 
+              <PropertyValue Property="Action" Value="Details" /> 
+              <PropertyValue Property="TargetObject" Value="ServiceRequest" /> 
+          </Record>
+          <Record Type="UI.DataField">
+              <PropertyValue Property="Label" String="subject" /> 
+              <PropertyValue Property="Value" Path="Name" /> 
+              <PropertyValue Property="DisplayType" Value="Link" /> 
+              <PropertyValue Property="Action" Value="Details" /> 
+              <PropertyValue Property="TargetObject" Value="ServiceRequest" /> 
+          </Record>
+      </Collection>
+  </Annotation>
+  <Annotation Term="UI.Identification">
+    <Collection>
+        <Record Type="UI.DataField">
+          <PropertyValue Property="Label" String="Start Date/Time" /> 
+          <PropertyValue Property="Value" Path="AppointmentStartDateTime" /> 
+          <PropertyValue Property="DisplayType" Value="DateTime" /> 
+        </Record>
+    </Collection>
+  </Annotation>
+  <Annotation Term="UI.InteractionLog">
+    <Collection>
+        <Record Type="ServiceRequestTextCollection">
+            <PropertyValue Property="name" Value="AuthorName" /> 
+            <PropertyValue Property="type" Value="TypeCodeText" />
+            <PropertyValue Property="text" Value="Text" />
+            <PropertyValue Property="date" Value="UpdatedOn" />
+        </Record>
+    </Collection>
+  </Annotation>
+</Annotations>
+ <Annotations xmlns="" Target="SERVICE_REQUEST.ServiceRequestAttachmentFolder">
+     <Annotation Term="UI.LeadBO">
+     <Record>
+     <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+     </Record>
+     </Annotation>
+     <Annotation Term="UI.LineItem">
+            <Collection>
+                <Record Type="UI.DataField">
+                    <PropertyValue Property="Label" String="Name" />
+                    <PropertyValue Property="Value" Path="Name"/>
+                    <PropertyValue Property="DisplayType" Value="Link"/>
+                    <PropertyValue Property="Action" Value="ShowAttachment"/>
+                </Record>
+            </Collection>
+        </Annotation>
+     </Annotations>
+ </dummy>

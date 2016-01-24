@@ -1,0 +1,25 @@
+.table-cust-layout .sapUiTableColRsz {
+    display: none !important;
+}
+
+.table-cust-layout tr:hover {
+    background-color: #DFEDFF;
+}
+
+.table-cust-layout td {
+	border: none !important;
+	padding: 3px !important;
+}
+
+.table-cust-layout .sapUiTable > div:last-child {
+	border: none !important;
+}
+
+.table-cust-layout .sapUiTableColHdrCnt {
+	border: none !important;
+}
+
+.table-cust-layout .sapUiTfStd {
+	border: 1px solid black !important;
+	background-color: white;
+}

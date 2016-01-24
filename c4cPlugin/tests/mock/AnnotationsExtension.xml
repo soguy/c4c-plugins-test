@@ -1,0 +1,463 @@
+<dummy>
+<Annotations xmlns="" Target="CHP.Opportunity">
+	 <Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="TRUE"/>
+		</Record>
+     </Annotation>
+	 <Annotation Term="UI.Query">
+		 <Collection>
+			<Record Type="UI.Filter">
+			   <PropertyValue Property="Label" String="All Opportunities"/>
+			   <PropertyValue Property="Type" Value="Parameter">
+    			    <Parameter Name="Parameter1" Value="Value1"></Parameter>
+    		        <Parameter Name="Parameter2" Value="Value2"></Parameter>
+    		        <Parameter Name="Parameter3" Value="Value3"></Parameter>
+			   </PropertyValue>
+			   <PropertyValue Property="Default" Value="TRUE"/>
+			</Record>
+			<Record Type="UI.Filter">
+			   <PropertyValue Property="Label" String="My Opportunities"/>
+			   <PropertyValue Property="Type" Value="FunctionImport" Name="Get_My_Opportunities"/>
+			</Record>
+		</Collection>
+	 </Annotation>	
+	 <Annotation Term="UI.BOAction">
+		 <Collection>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Open"/>
+			   <PropertyValue Property="FunctionImport" Name="Reopen">
+					<Parameter Name="ObjectID" Value="val1"/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as In Process"/>
+			   <PropertyValue Property="FunctionImport" Name="Process">
+					<Parameter Name="ObjectID" Value="val2"/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Won"/>
+			   <PropertyValue Property="FunctionImport" Name="Win">
+					<Parameter Name="ObjectID" Value="val3"/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Lost"/>
+			   <PropertyValue Property="FunctionImport" Name="Lose">
+					<Parameter Name="ObjectID" Value="val4"/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Stopped"/>
+			   <PropertyValue Property="FunctionImport" Name="Stop">
+					<Parameter Name="ObjectID" Value="val5"/>
+			   </PropertyValue>
+			</Record>
+		 </Collection>
+	 </Annotation>
+	 <Annotation Term="UI.LineItem">
+        <Collection>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Label" String="Name" />
+                <PropertyValue Property="Value" Path="OpportunityName"/>
+                <PropertyValue Property="DisplayType" Value="Link"/>
+                <PropertyValue Property="Action" Value="Details"/>                   
+                <PropertyValue Property="TargetObject" Value="Opportunity"/>
+            </Record>
+        </Collection>
+     </Annotation>
+ </Annotations>
+ <Annotations xmlns="" Target="CHP.OpportunityOverview">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunityItem">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunityCompetitors">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunitySalesTeam">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunityContact">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunityInvolvedParties">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.OpportunityAttachments">
+	<Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+     </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Lead">
+<Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="TRUE"/>
+	</Record>
+</Annotation>
+<Annotation Term="UI.Query">
+
+		 <Collection>
+			<Record Type="UI.Filter">
+			   <PropertyValue Property="Label" String="My Leads"/>
+			   <PropertyValue Property="Type" Value="FunctionImport" Name="Get_My_Leads"/>
+			</Record>
+			<Record Type="UI.Filter">
+			   <PropertyValue Property="Label" String="All Leads"/>
+			   <PropertyValue Property="Type" Value="Parameter">
+			   </PropertyValue>
+			   <PropertyValue Property="Default" Value="TRUE"/>
+			</Record>
+			<Record Type="UI.Filter">
+			   <PropertyValue Property="Label" String="Converted Leads"/>
+			   	 <PropertyValue Property="Type" Value="Parameter">
+					<Parameter Name="Status" Value="Converted"/>
+			  </PropertyValue>
+			</Record>
+		 </Collection>
+</Annotation>	
+<Annotation Term="UI.BOAction">
+		 <Collection>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Open"/>
+			   <PropertyValue Property="FunctionImport" Name="Convert_to_Opportunity">
+					<Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+		 </Collection>
+	 </Annotation>
+ <Annotation Term="UI.LineItem">
+        <Collection>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Label" String="Name"/>
+                <PropertyValue Property="Value" Path="Name"/>
+				<PropertyValue Property="DisplayType" Value="Link"/>
+                <PropertyValue Property="Action" Value="Details"/>                   
+			    <PropertyValue Property="TargetObject" Value="Lead"/>
+            </Record>
+		</Collection>
+</Annotation>
+</Annotations>
+<Annotations xmlns="" Target="CHP.LeadOverview">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.LeadItem">
+<Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+</Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.LeadContact">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.LeadInvolvedParties">
+<Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.LeadSalesAndMarketingTeam">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.LeadAttachments">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+	</Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Appointments">
+ <Annotation Term="UI.LeadBO">
+	<Record>
+		<PropertyValue Property="IsLeadBO" Value="TRUE"/>
+	</Record>
+ </Annotation>
+<Annotation Term="UI.BOAction">
+		 <Collection>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as In Process"/>
+			   <PropertyValue Property="FunctionImport" Name="Process">
+			   <Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Completed"/>
+			   <PropertyValue Property="FunctionImport" Name="Completed">
+			   <Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set as Cancelled"/>
+			   <PropertyValue Property="FunctionImport" Name="Cancel">
+			   <Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+		 </Collection>
+	 </Annotation> 
+ <Annotation Term="UI.LineItem">
+    <Collection>
+        <Record Type="UI.DataField">
+                <PropertyValue Property="Label" String="Subject"/>
+				<PropertyValue Property="Value" Path="SubjectName"/>
+				<PropertyValue Property="DisplayType" Value="Link"/>
+				<PropertyValue Property="Action" Value="Details"/>                   
+				<PropertyValue Property="TargetObject" Value="Appointments"/>
+        </Record>
+		<Record Type="UI.DataField">
+                <PropertyValue Property="Label" String="Start Date/Time"/>
+                <PropertyValue Property="Value" Path="AppointmentStartDateTime"/>
+				<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+        <Record Type="UI.DataField">
+                <PropertyValue Property="Label" String="End Date/Time"/>
+                <PropertyValue Property="Value" Path="AppointmentEndDateTime"/>
+				<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+    </Collection>
+  </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.AppointmentsOverview">
+ <Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+ </Annotation>
+ <Annotation Term="UI.Identification">
+    <Collection>
+		<Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="Start Date/Time"/>
+            <PropertyValue Property="Value" Path="AppointmentStartDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="End Date/Time"/>
+            <PropertyValue Property="Value" Path="AppointmentEndDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+	</Collection>
+</Annotation>
+ </Annotations>
+ <Annotations xmlns="" Target="CHP.AppointmentInvolvedParties">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.AppointmentNotes">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.AppointmentAttachments">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Task">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="TRUE"/>
+ </Record>
+ </Annotation>
+ <Annotation Term="UI.BOAction">
+		 <Collection>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set to In Process"/>
+			   <PropertyValue Property="FunctionImport" Name="Process">
+			   <Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+			<Record Type="UI.Action">
+			   <PropertyValue Property="Label" String="Set to complete"/>
+			   <PropertyValue Property="FunctionImport" Name="Complete">
+			   <Parameter Name="ObjectID" Value=""/>
+			   </PropertyValue>
+			</Record>
+			</Collection>
+	 </Annotation> 
+<Annotation Term="UI.LineItem">
+	<Collection>
+		<Record Type="UI.DataField">
+			<PropertyValue Property="Label" String="Subject"/><PropertyValue Property="Value" Path="Subject"/>
+			<PropertyValue Property="DisplayType" Value="Link"/>
+			<PropertyValue Property="Action" Value="Details"/>                   
+			<PropertyValue Property="TargetObject" Value="Task"/>
+        </Record>
+		<Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="Start Date/Time"/>
+            <PropertyValue Property="Value" Path="TaskStartDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+        <Record Type="UI.DataField">
+			<PropertyValue Property="Label" String="End Date/Time"/>
+            <PropertyValue Property="Value" Path="TaskDueDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+    </Collection>
+  </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.TaskOverview">
+ <Annotation Term="UI.LeadBO">
+		<Record>
+			<PropertyValue Property="IsLeadBO" Value="FALSE"/>
+		</Record>
+ </Annotation>
+ <Annotation Term="UI.Identification">
+    <Collection>
+		<Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="Start Date/Time"/>
+            <PropertyValue Property="Value" Path="TaskStartDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+		</Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="End Date/Time"/>
+            <PropertyValue Property="Value" Path="TaskDueDateTime"/>
+			<PropertyValue Property="DisplayType" Value="DateTime"/>
+        </Record>
+	</Collection>
+</Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.TaskInvolvedParties">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.TaskNotes">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.TaskAttachments">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Products">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="TRUE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Partner">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="TRUE"/>
+ </Record>
+ </Annotation>
+ <Annotation Term="UI.LineItem">
+    <Collection>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Label" String="Name"/>
+            <PropertyValue Property="Value" Path="Name"/>
+            <PropertyValue Property="DisplayType" Value="Link"/>
+			<PropertyValue Property="Action" Value="Details"/>                   
+			<PropertyValue Property="TargetObject" Value="Partner"/>
+        </Record>
+    </Collection>
+  </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.PartnerOverview">
+<Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+</Annotations>
+ <Annotations xmlns="" Target="CHP.PartnerAddress">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.PartnerContact">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+ <Annotations xmlns="" Target="CHP.PartnerContactOverview">
+<Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+</Annotations>
+<Annotations xmlns="" Target="CHP.PartnerProgram">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Fund">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations>
+<Annotations xmlns="" Target="CHP.Loyalty">
+ <Annotation Term="UI.LeadBO">
+ <Record>
+ <PropertyValue Property="IsLeadBO" Value="FALSE"/>
+ </Record>
+ </Annotation>
+ </Annotations> 	
+ </dummy>
+ 

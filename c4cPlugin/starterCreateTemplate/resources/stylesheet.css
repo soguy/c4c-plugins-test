@@ -1,0 +1,65 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    overflow: auto;
+}
+
+.sapUiFormResGridCont>div {
+    padding: 0.75rem;
+}
+
+#content, #container1, #container1-uiarea {
+    height: 100%;
+}
+
+.create-horizontal {
+    width: 100%;
+}
+
+.create-horizontal .sapUiHLayoutChildWrapper {
+    width: 50%;
+}
+#itemCount{
+    font-size: 17px;
+    color: #666666;
+    padding-left: 11px;
+}
+.create-horizontal .sapUiHLayoutChildWrapper:first-child{
+    width: 30% ;
+    margin-right: 2px;
+}
+
+.create-horizontal .sapUiHLayoutChildWrapper:last-child{
+   width: 70%;
+}
+
+.searchVhelp_textBox{
+   
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.searchVhelp_textBox form{
+    border-color: #bfbfbf;
+    border-width: 1px;
+    border-style: solid;
+}
+.sapMSubHeader-CTX .sapMSFF, .sapMFooter-CTX .sapMSFF{
+    border-color:gray;
+}
+
+.searchVhelp{
+    background-color: white !important;
+    border-bottom:0px white;
+}
+.sapMList.sapMListBGTranslucent.sapMListTblCnt{
+    margin-top: 3px;
+}
+.sapMDialogScrollCont{
+   padding: 1rem;  
+}
+.sapUiHLayoutChildWrapper:last-child>div{
+    width:100%;
+}

@@ -1,0 +1,50 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:core="sap.ui.core">
+  <l:Grid vSpacing="0" defaultSpan='L12 M12 S12'>
+    <l:content>
+        <VBox  width="100%"
+            class="interaction-feed-container">
+            <FeedInput  
+              width="100%"
+                class="interaction-feed"
+                placeholder="{i18n_Static>starterDetailsPage.interactionlog.feed.placeholder}" 
+                post="onFeedClicked"
+                icon="sap-icon://person-placeholder">
+            </FeedInput>
+            <ComboBox
+                items="{
+                  path: 'interactionLogModel>/typeCodes'
+                }"
+                selectedKey = "{interactionLogModel>/selectedCode}"
+                value="{interactionLogModel/selectedCode}"
+                class="sapUiSmallMarginBottom interaction-type-code">
+                <core:Item key="{interactionLogModel>code}" text="{interactionLogModel>text}" />
+            </ComboBox>
+        </VBox>    
+        <List items="{path: 'ObjectPageModel>/{{currentBO.interactionLog.boAnnotation}}'}"
+            class="interaction-feed-list">
+            <CustomListItem
+                class="sapMListTblSupRow">
+                <HBox
+                    class="intercation-feed-item-hbox">
+                    <core:Icon
+                        src="sap-icon://person-placeholder"
+                        class="sapUiTinyMarginTop"/>
+                    <VBox class="sapUiLargeMarginBegin sapUiTinyMarginTop interation-feed-item">    
+                        <Label class="interaction-feed-item-author" text="{ObjectPageModel>{{currentBO.interactionLog.data.name}}/}" design="Bold"/> 
+                        <Text class="interaction-feed-item-text" text="{ObjectPageModel>{{currentBO.interactionLog.data.text}}/}"/>   
+                        <HBox class="sapUiSmallMarginTop">
+                            <Text class="interaction-feed-item-post sapUiTinyMarginEnd" text="{ObjectPageModel>{{currentBO.interactionLog.data.type}}/}"/> 
+                            <Text class="interaction-feed-item-post" text="|"/> 
+                            <Text class="interaction-feed-item-post sapUiTinyMarginBegin" text="{path: 'ObjectPageModel>UpdatedOn', formatter:'.formatTimeDate'}"/> 
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </CustomListItem> 
+        </List>
+    </l:content>
+  </l:Grid>
+</core:FragmentDefinition>

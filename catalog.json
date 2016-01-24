@@ -1,0 +1,11 @@
+{
+    "name" : "hcp Plugin Repository",
+    "plugins" : [
+        {
+            "name" : "com.sap.hcp.c4c",
+            "description" : "Cloud for Customer portal applications",
+            "path" : "/c4cPlugin",
+            "version" : "2.0.0"
+        }
+    ]
+}

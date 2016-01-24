@@ -1,0 +1,116 @@
+.bos-tree .sapUiTableColRowHdr,.bos-tree .sapUiTableRowHdr {
+    display: none !important;
+}
+
+.bos-tree .sapUiTableColHdrCnt {
+    display: none !important;
+}
+
+.bos-tree .sapUiTableRowHdr, .sapUiTableTr>td {
+	border: none !important;
+}
+
+.bos-tree .sapUiTableRowHdrScr {
+	display: none !important;
+}
+
+.bos-tree.sapUiTable>div {
+	border: none !important;
+}
+
+.bos-tree {
+    margin-top: 20px;
+}
+
+.create-tree-layout .sapUiCb {
+    padding-left: 0.9rem;
+}
+
+.create-tree-layout .sapUiTableCell {
+    padding-left: 0.9rem;
+}
+
+.create-tree-layout .sapUiTableTreeIconLeaf {
+    background: none;
+    margin-left: 22px !important;
+}
+
+.create-tree-layout .sapUiTableTreeIcon {
+    margin-right: 6px;
+}
+
+.create-tree-layout .sapUiTriCbLbl {
+    margin-left: 8px;
+}
+
+.create-tree-layout {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	display: block;
+}
+
+.create-tree-layout>.sapuiVltCell:nth-child(2) {
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.create-tree-layout .sapUiTableGroupIconOpen, .sapUiTableTreeIconNodeOpen {
+    background-image: url('../starterPCMSolutionTemplate/image/openFolder.png');
+    width: 17px;
+    height: 17px;
+    margin-top: 5px;
+}
+
+.create-tree-layout span.sapUiTableTreeIcon.sapUiTableTreeIconNodeClosed {
+    background-image: url('../starterPCMSolutionTemplate/image/closedFolder.png');
+    width: 17px;
+    height: 17px;
+    margin-top: 5px;
+}
+
+.create-tree-layout .sapUiTableTreeIcon {
+    cursor: pointer;
+}
+
+.create-tree-layout .sapUiIcon {
+	margin-left: 3px;
+	margin-right: 2px;
+}
+
+.create-tree-layout .sapUiHLayoutChildWrapper {
+	vertical-align: middle;
+}
+
+
+.links-content-layout {
+	float: right;
+}
+
+.links-content-layout .sapUiLnk{
+    text-decoration: none;
+	font-size: 14px;
+	color: #0a7cc0;
+}
+
+.links-content-layout .sapUiLnk:hover{
+	color: #0a7cc0;
+}
+
+.links-content-layout .sapUiLnk.first-link{
+	padding-right: 10px;
+}
+
+.links-content-layout .sapUiLnk.second-link{
+	padding-left: 10px;
+}
+
+.links-content-layout .sapUiHLayoutChildWrapper:first-of-type{
+    border-right: 1px solid;   
+    height: 18px;
+}
+

@@ -1,0 +1,1986 @@
+jQuery.sap.require("sap.m.MessageBox");
+
+sap.ui.controller("c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.details", {
+    
+    valueHelpersMetaData: {{#detailsValuesHelpMetaData currentBO.facets currentBO.identification currentBO.boId}}
+                          {{/detailsValuesHelpMetaData}},
+    
+    updateFields :   {{#detailsUpdatableMetadata currentBO.updatableFieldsName}}
+                          {{/detailsUpdatableMetadata}},
+    openValueHelpDialog: function openValueHelpDialog(oController) {
+
+        this.eventBus = new sap.ui.core.EventBus();
+        this.registerEvents();
+
+        //this.whoAmIKey = oController.getSource().getId().replace(this.getView().getId() + '--',"");
+        this.whoAmIKey = oController.getSource().getName();
+        this.whoAmIBo = this.valueHelpersMetaData[this.tableName][this.whoAmIKey].BusinessObject.replace(/Collection/, '');
+        
+        var valueHelpMetaData = this.valueHelpersMetaData[this.tableName][this.whoAmIKey];
+        
+        valueHelpMetaData.searchValue = oController.getSource()._$input.val();
+        var oValueHelpDialog = sap.ui.controller("c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.vhelpdialog");
+        var staticModel = this.getView().getModel('i18n_Static');
+        var translationAnnotationModel =this.getView().getModel('i18n');
+        oValueHelpDialog.onInit({
+              eventBus:this.eventBus,
+              params: valueHelpMetaData,
+              staticModel: staticModel,
+              translationAnnotationModel:translationAnnotationModel
+        });
+     
+        oValueHelpDialog.openDialog(); 
+    },
+    
+    registerEvents: function registerEvents() {
+	    this.eventBus.subscribe("dialog.event","value.changed",function(v,e,obj){
+            this.onValueHelpChanged(obj);
+        }.bind(this));
+    },
+    
+    onValueHelpChanged: function onValueHelpChanged(obj) {
+        
+        var oModel,
+            updateData = {},
+	        i, j,
+	        updateObj;
+	        
+	        if (window._generalNameSpace.businessObject.targetEntity.replace(/Collection/,"") === this.tableName) {
+	            oModel = this.getView().getModel('EditObjectPageModel');
+	            updateObj = updateData[this.whoAmIBo] = {};
+	        } else {
+	            oModel = this._oDialog.getModel();
+	            updateObj = updateData;
+	        }
+	   
+    	    for (i in obj) {
+    	        if (obj.hasOwnProperty(i)) {
+    	            for (j = 0; j < obj[i].localsIds.length; j++) {
+    	                updateObj[obj[i].localsIds[j]] = obj[i].value;
+    	            }
+    	        }
+    	    } 
+    	   
+	    oModel.setData(updateData, true);
+    },
+     isValidFormInFragment :function(fragment){
+         var input,
+            $input,
+            inputId,
+            isValid = true,
+            scope = this,
+            bundle;
+        var $labels = fragment.$().find('.sapMLabelRequired:visible');
+     
+       $labels.each(function(){
+            $input = $(this).closest('.sapMVBox').find('input');
+            inputId = $input.attr('id');
+            inputId = inputId.indexOf("-inner") >= 0 ? inputId.substr(0, inputId.indexOf("-inner")) : inputId;
+            input = sap.ui.getCore().byId(inputId);
+            if (input) {
+                if (!input.getValue()) {
+                isValid = false;
+                input.setValueState("Error");
+                bundle = scope.getView().getModel('i18n_Static').getResourceBundle();
+                sap.m.MessageToast.show(bundle.getText('starterCreateTemplate.create.error.save.notification'));
+                } else {
+                    input.setValueState("None");
+                }
+            }
+        });
+        
+        if(isValid){
+            $input = fragment.$().find('.sapMInputBaseErrorInner');
+            if($input.length){
+                isValid = false;
+                bundle = scope.getView().getModel('i18n_Static').getResourceBundle();
+                sap.m.MessageToast.show(bundle.getText('starterCreateTemplate.create.additional.error.save.notification'));
+            }
+        
+        }
+        return isValid;
+        
+    },
+    
+    isValidForm:function(){
+        var fragment = this._getFormFragment("Edit");
+        var isValid = this.isValidFormInFragment(fragment);
+        return isValid;
+    },
+    
+    resetForm: function() {
+        var fragment = this._getFormFragment("Edit");
+        var $input = fragment.$().find('.sapMInputBaseErrorInner');
+        var inputId, input;
+        $input.each(function(i,val){
+            inputId = val.id;
+	        inputId = inputId.indexOf("-inner") >= 0 ? inputId.substr(0, inputId.indexOf("-inner")) : inputId;
+	        input = sap.ui.getCore().byId(inputId);
+            input.setValueState("None");
+        });
+    },
+    
+    handleRequiredInputChange:function handleRequiredInputChange(oEvent) {
+        var src =  oEvent.getSource();
+        var type =src.getType();
+        if(type ==="Number"){
+            if(src.getValue()===""){
+                src.setValueState("Error");
+                return;
+            }
+        }
+        src.setValueState("None");
+    },
+    
+    {{#hasInteractionLogFacet currentBO.facets}}
+    onFeedClicked: function onFeedClicked(oEvent) {
+        var messageText = oEvent.mParameters.value,
+            data = {
+                AuthorName: sap.ushell ? sap.ushell.Container.getUser().getFullName() : "Test User For Preview",
+                Text: messageText,
+                TypeCode: this.getView().getModel("interactionLogModel").getData().selectedCode
+            };
+            
+        var oModelDetailsPage = this.getView().getModel(this.modelName);
+        var dataDetailsPage  = oModelDetailsPage.getData();
+        data.ParentObjectID =dataDetailsPage[window._generalNameSpace.businessObject.semanticObject].ObjectID;    
+            
+        this.showBusyIndicator();    
+        BackendCall.doCall({
+        	successCallback: this._onFidCreatedSuccess.bind({
+        		scope: this,
+        		data: data
+        	}),
+        	errorCallback: this._onError.bind({
+        		scope: this
+        	}),
+        	completeCallback: this._onAddComplete.bind({
+        		scope: this
+        	}),
+        	method: "POST",
+        	data: JSON.stringify(data),
+        	url: window._generalNameSpace.businessObject.oDataService + "/" + window._generalNameSpace.businessObject.targetEntity + "('" + data.ParentObjectID + "')/ServiceRequestTextCollection",
+        	contentType: "application/json;charset=utf-8"
+        });
+    },
+    
+    _onFidCreatedSuccess: function _onFidCreatedSuccess(xmlDoc) {
+        
+        var props = $(xmlDoc).find("m\\:properties, properties").children(),
+            oModel = this.scope.getView().getModel(this.scope.modelName),
+		    modelData = oModel.getData(),
+		    items = modelData[this.scope.tableName],
+		    item = {};
+		
+		$.each(props,function(){
+            var n = this.nodeName;
+            var propName = n.split(":")[1];
+            item[propName] = $(this).text();
+        });
+		items.splice(0, 0, item);
+		oModel.setData(modelData);
+    },
+    {{/hasInteractionLogFacet}}
+
+    onInit: function () {
+        var params=this.getView().getViewData() || {};
+        
+        if(params.id){
+           this.loadData(params.id);
+        } else if (params.functionImport) {
+            this.getObjectIdByFunctionImport(params.functionImport, function(receivedObjectId){
+                this.loadData(receivedObjectId);
+            }.bind(this));
+        } else {
+            this.getFirstRowID(function(receivedObjectId){
+                this.loadData(receivedObjectId);
+            }.bind(this));
+        }
+    },
+    
+    loadData: function (collectionId) {
+    
+        var viewData = {{#createDetailsDataModel currentBO.facets}}
+                       {{/createDetailsDataModel}};
+
+        var oJsonModel = new sap.ui.model.json.JSONModel(),
+            businessObject = window._generalNameSpace.businessObject,
+            src = this.getServiceUrl(businessObject.oDataService),
+            oDataServiceModel = new sap.ui.model.odata.ODataModel(src , false, null, null, null, false, false, true),
+            collectionApi = "/" + businessObject.targetEntity + "('" + collectionId + "')",
+            counter = new sap.ui.model.json.JSONModel(),
+            facetsStateModel = new sap.ui.model.json.JSONModel();
+        
+        {{#hasInteractionLogFacet currentBO.facets}}
+        var interactionLogModel = new sap.ui.model.json.JSONModel();
+        // Populate Interaction type combobox
+        BackendCall.doCall({
+            successCallback: function(xml, status, xhr){
+                var data = $(xml).find("m\\:properties, properties"),
+                    collection = [];
+                    
+                for (var i=0, l=data.length;i<l;i++) {
+                
+                    var code = $(data[i]).find('d\\:Code, Code').text(),
+                        desc = $(data[i]).find('d\\:Description, Description').text();
+                    
+                    collection.push({
+                       code: code,
+                       text: desc
+                    });
+                }
+                
+                collection.sort(function(obj1,obj2){
+                    if (obj1.text > obj2.text){
+                        return 1;
+                    }
+                    if (obj1.text < obj2.text){
+                        return -1;
+                    }
+                    return 0;
+                });
+                
+				var  typeCodesArr = collection,
+					typeCodes = {
+					typeCodes: typeCodesArr,
+					selectedCode: typeCodesArr[0].code};
+        
+                interactionLogModel.setData(typeCodes, true);  
+            },
+            errorCallback: this._onError.bind({
+                scope: this
+            }),
+            method: 'GET',
+            url: window._generalNameSpace.businessObject.oDataService +"/ServiceRequestTextCollectionTypeCodeCollection",
+            contentType: "application/json;charset=utf-8"
+        });  
+        this.getView().setModel(interactionLogModel, 'interactionLogModel'); 
+        {{/hasInteractionLogFacet}}
+           
+
+        oJsonModel.setSizeLimit(260);
+        this.collectionId = collectionId;
+        this.getView().setModel(counter, 'tableCountModel');
+        this.getView().setModel(facetsStateModel, 'facetStateModel');
+        this.tableName = businessObject.semanticObject;
+        
+        var bo,obj = this.valueHelpersMetaData;
+        for (bo in obj) {
+	        if (obj.hasOwnProperty(bo) && bo!== window._generalNameSpace.businessObject) {
+	            this.setFacetState(bo,"view");
+	        }
+    	} 
+        
+        oDataServiceModel.attachMetadataLoaded({}, function(){
+            oDataServiceModel.read(collectionApi, null, null, true, function(data){
+                oJsonModel.setData({ "{{currentBO.boId}}" : data  }, true);
+                this.facetLoaded(true);
+            }.bind(this) , this._onError.bind({scope:this}));
+            
+            {{#readSubObject currentBO.facets currentBO.boId}}
+                {{body}}
+            {{/readSubObject}}
+            
+        }.bind(this));
+
+        this.oObjectPageStateModel = new sap.ui.model.json.JSONModel({
+            showBusyIndicator: true,
+            scrollingSectionId:"",   //the only property that is not really bindable
+            sections: businessObject.sections,
+            info: {
+                detailsImage : businessObject.detailsImage
+            }
+        });
+
+        this.getView().setModel(oJsonModel, "ObjectPageModel");
+        this.getView().setModel(this.oObjectPageStateModel, "ObjectPageState");
+        this.viewData = viewData;
+        
+        this.eventBus = new sap.ui.core.EventBus();
+        this.registerEvents();
+    },
+    
+    hideBusyIndicator: function() {
+        if (this.oObjectPageStateModel) {
+            this.oObjectPageStateModel.setData({showBusyIndicator: false}, true);
+        }
+    },
+    
+    showBusyIndicator: function() {
+        if (this.oObjectPageStateModel) {
+            this.oObjectPageStateModel.setData({showBusyIndicator: true}, true);
+        }
+    },
+    
+    facetLoaded: function(wasLoaded) {
+        this.hideBusyIndicator();
+    },
+    
+    onExit : function onExit() {
+        for(var sPropertyName in this._formFragments) {
+            if(!this._formFragments.hasOwnProperty(sPropertyName)) {
+                return;
+            }
+    
+            var fragment = this._formFragments[sPropertyName];
+            
+            if (fragment) {
+                fragment.destroy();
+                this._formFragments[sPropertyName] = null;
+            }
+        }
+    },
+    
+    handleShowAttachment: function handleShowAttachment(oEvent) {
+
+        function download(data) {
+    
+            function multipleClick(element) {
+                var evt = document.createEvent("MouseEvents");
+                evt.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0,
+                    false, false, false, false, 0, null);
+                element.dispatchEvent(evt);
+            } 
+            
+            function base64toBlob(base64Data, contentType) {
+                contentType = contentType || '';
+                var sliceSize = 1024;
+                var byteCharacters = atob(base64Data);
+                var bytesLength = byteCharacters.length;
+                var slicesCount = Math.ceil(bytesLength / sliceSize);
+                var byteArrays = new Array(slicesCount);
+            
+                for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                    var begin = sliceIndex * sliceSize;
+                    var end = Math.min(begin + sliceSize, bytesLength);
+            
+                    var bytes = new Array(end - begin);
+                    for (var offset = begin, i = 0 ; offset < end; ++i, ++offset) {
+                        bytes[i] = byteCharacters[offset].charCodeAt(0);
+                    }
+                    byteArrays[sliceIndex] = new Uint8Array(bytes);
+                }
+                return new Blob(byteArrays, { type: contentType });
+            }
+            
+            if (data.autoload) {
+            
+                if (Blob) {
+                    
+                    var url;
+                    if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+                        url = window.navigator.msSaveOrOpenBlob(
+                            base64toBlob(data.content, data.type), 
+                            data.fileName
+                        );
+                    } else {
+                        url = window.URL.createObjectURL(
+                            base64toBlob(data.content, data.type)
+                        );
+                    }   
+                    
+                } else {
+                    
+                    /**
+                     * Define url
+                     * @type {string}
+                     */
+                    var url = data.contentBase64;
+                }
+                
+                var a = $('<a />').attr({
+                    href: url,
+                    target: '_blank',
+                    download: data.fileName
+                }).text('Download');
+    
+                try {
+                    if (url.length < 500000) {
+                        //window.open(url);
+                        multipleClick(a[0]);
+                    } else {
+                        console.log('Unable to download file', url.length);
+                    }
+                } catch(e) {
+                    console.log('Stringify error', e);
+                }
+            } 
+        }
+        
+        var src = oEvent.getSource(),
+            path = src.oPropagatedProperties.oBindingContexts.ObjectPageModel.sPath,
+            idx = parseInt(path.substring(path.lastIndexOf('/') + 1), 10),
+            data = this.getView().getModel(this.modelName).getData(),
+            item = data[this.tableName][idx],
+            contentBase64 = 'data:' + item.MimeType + ';base64,' + item.Binary;
+        
+        if (item.CategoryCode === '2') {
+        
+            download({
+                autoload: true,
+                contentBase64: contentBase64,
+                content: item.Binary,
+                type: item.MimeType,
+                fileName: src.getText()
+            });    
+        }
+        
+        if (item.CategoryCode === '3' && item.LinkWebURI.length > 0) {
+            
+            var a = $('<a />').attr({
+                    target: '_blank',
+                    href: item.LinkWebURI
+                }).text('Link');
+                
+            a[0].click();    
+        }
+    },
+    
+    openActions: function openActions(oEvent) {
+        var oButton = oEvent.getSource();
+         this.setEditableContext(oEvent.getSource());
+        if (!this._actionSheet) {
+          this._actionSheet = sap.ui.xmlfragment(
+            "c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.actions.actionsSheet",
+            this
+          );
+          
+          this.getView().addDependent(this._actionSheet);
+        }
+    
+        this._actionSheet.openBy(oButton);
+    },
+    
+    actionPressed: function(oEvent) {
+        var opts,
+            data = oEvent.getSource().data(),
+            key,
+            params = [];
+            
+        for (key in data) {
+            if (data.hasOwnProperty(key) && key !== "funcName") {
+                params.push(data[key]);
+            }
+        }
+        
+        opts = {
+            funcName: oEvent.getSource().data("funcName"),
+            params: params,
+            collectionId: this.collectionId
+        };
+        this.showBusyIndicator(); 
+        BackendCall.doCall({
+            successCallback: this.updateBOAfterChange.bind({
+                scope:this
+            }),
+            errorCallback: this._onError.bind({
+                scope:this
+            }),
+            method: "POST",
+            url: window._generalNameSpace.businessObject.oDataService + "/" + opts.funcName + "?ObjectID='" + opts.collectionId + "'",
+            contentType: "application/json;charset=utf-8"
+        });
+    },
+    
+    onAfterRendering: function onAfterRendering() {
+        
+    },
+
+    readSubObject: function(oDataServiceModel, collectionApi, subBObject, oJsonModel, counter) {
+
+        var view = this.getView(),
+            scope = this;
+        
+        var hash = {};
+        
+        oDataServiceModel.read(collectionApi + "/" + subBObject, null, null, true, function (data) {
+            var obj = {};
+            obj[this.subBObject] = data.results;
+            oJsonModel.setData(obj, true);
+            if (data.results !== undefined ){
+                hash[this.subBObject + 'Count'] = data.results.length;
+            }
+        
+            counter.setData(hash, true);
+        }.bind({subBObject: subBObject}), this._onError.bind({scope: this}))
+    },
+    
+    handleIconTabBarSelect: function handleIconTabBarSelect(oEvent) {
+        var oBar = oEvent.getSource();
+        oBar.setExpanded(true);
+        oBar.setExpandable(false);
+        
+        this.setEditableContext({
+            data: function(type) {
+                var data = {
+                    table: oBar.getSelectedKey(),
+                    model: 'ObjectPageModel'
+                };
+                return data[type];
+            }
+        });
+        
+        var overViewEdit = this.overViewEdit;
+        
+        if (overViewEdit) {
+            this.handleOverviewEdit({
+                getSource: function(){
+                    return overViewEdit;
+                },
+                isActive: function(){
+                    return true;
+                }
+            });
+        }
+        
+        this.handleEditBtn(
+            this.getView().getModel('ObjectPageModel').getData()[oBar.getSelectedKey()], 
+            sap.ui.getCore().byId(oBar.$().find('button.deleteBtn').attr('id'))
+        );
+        
+         this.editButtonEnabled(
+            this.getView().getModel("ObjectPageModel").getData()[oBar.getSelectedKey()], 
+            sap.ui.getCore().byId(oBar.$().find("button.updateBtn").attr("id"))
+            );
+    },
+    
+    // Handle enable/disable edit button when "No data"
+    handleEditBtn: function handleEditBtn(items, oEditButton) {
+        
+        if (!oEditButton || !items) {
+            return false;
+        }
+                
+        var length = items.length > 0,
+            oTable = sap.ui.getCore().byId(jQuery('.' + this.tableName)[0].id);
+        
+        if (oTable.getMode) {
+            if (oTable.getMode() === 'Delete') {
+                if (length) {
+                    $btn = oEditButton.$().find('div:first');
+                    $btn.addClass('btnActive');
+                } else {
+                    oEditButton.firePress();
+                }
+            }
+            oEditButton.setEnabled(length && this.getFacetState() !== "edit");  
+        }
+    },
+    
+    navigateTo: function navigateTo(oEvent) {
+        var path = oEvent.getSource().data('navigateTo'),
+            $tabsContainer = $('.sapMITH'),
+            $tab = $tabsContainer.find('.sapMITBFilter:contains(' + path + ')');
+        
+        try {
+
+            var oTab = sap.ui.getCore().byId($tab[0].id);
+            
+            oTab.getParent().setSelectedItem(oTab);
+
+        } catch(e) {
+             this.showMsg('undefined path:' + path);
+        }
+
+    },
+    
+    handleNavButtonPress: function(){
+        try{
+            if(sap.ushell.services.AppConfiguration){
+                window.history.go(-1);    
+            }}catch(e){
+                alert('Navigate to previous page');
+            }
+        return;
+    },
+
+    getServiceUrl: function (query){
+        try{
+            if (sap.ushell && sap.ushell.services && sap.ushell.services.AppConfiguration) {
+                query = window._generalNameSpace.pathToDestination + query;
+                return query;
+            }
+        }catch(e){
+        }
+        query = '/' + query;
+        return query;
+    },
+    
+    handleExit : function handleExit() {
+        this.dialogType = undefined;
+        if (this._oDialog) {
+            this._oDialog.destroy();
+        }
+    },
+    
+    handleOpenDialog: function (oEvent) {
+        this._oDialog = sap.ui.xmlfragment("c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.dialog.delete", this);
+        this.getView().addDependent(this._oDialog);
+        this._oDialog.contextPathCaller = oEvent.getParameter('listItem').getBindingContextPath();
+        // toggle compact style
+        jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+        this._oDialog.open();
+    },
+    
+    handleConfirm: function (oEvent) {
+        var view = this.getView(),
+            path = this._oDialog.contextPathCaller,
+            idx = parseInt(path.substring(path.lastIndexOf('/') + 1), 10),
+            oModel = view.getModel(this.modelName),
+            data = oModel.getData(),
+            items = data[this.tableName];
+          
+        var deleteData = {};
+        deleteData.ObjectID = items[idx].ObjectID; 
+        deleteData.tableName = this.tableName;
+        deleteData.deletedItem = items[idx];
+        deleteData.indexDeletedItem =idx;
+        
+        items.splice(idx, 1);
+        oModel.setData(data);
+        this.handleExit();
+        this.showBusyIndicator();
+
+        BackendCall.doCall({
+            successCallback: this._onDeleteSuccess.bind({
+                scope: this,
+                data: deleteData
+            }),
+            errorCallback: this._onDeleteError.bind({
+                scope: this,
+                data: deleteData
+            }),
+            completeCallback: this._onDeleteComplete.bind({
+                scope: this
+            }),
+            method: "DELETE",
+            url: window._generalNameSpace.businessObject.oDataService +"/" + deleteData.tableName +"Collection" +"('" + deleteData.ObjectID + "')",
+            contentType: "application/json;charset=utf-8"});        
+    },
+    
+    _onDeleteComplete: function _onDeleteComplete() {
+        this.scope.hideBusyIndicator();
+    },
+    
+    _onDeleteError: function _onDeleteError (xhr) {
+        this.scope.restoreRow(this.scope,this.data);
+        this.scope._onError.bind({
+            scope: this
+        })(xhr);
+    },
+    
+    _onDeleteSuccess: function _onDeleteSuccess () {
+        var oModel = this.scope.getView().getModel(this.scope.modelName),
+        modelData = oModel.getData(),
+        items = modelData[this.data.tableName];
+        var oCountModel = this.scope.getView().getModel("tableCountModel"),
+        modelCountData =  oCountModel.getData();
+        modelCountData[this.data.tableName + "Count"] = items.length;
+        oCountModel.setData(modelCountData);
+        
+        bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle();
+        sap.m.MessageToast.show(bundle.getText('starterDetailsPage.dialog.delete.record'));
+        
+        this.scope.handleEditBtn(
+            items,
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.deleteBtn').attr('id'))
+        );
+        this.scope.editButtonEnabled(
+             items,
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.updateBtn').attr('id'))
+            );
+    },
+    
+    handleDelete: function handleDelete(oEvent) {
+        this.handleOpenDialog(oEvent);
+    },
+    
+    enableAdd: function enableAdd(oEvent) {
+        var oTable = this.getOTable(oEvent),
+            oModel = this.getView().getModel(this.modelName),
+            oButton = oEvent.getSource();
+
+        this.disableEdit(oEvent);
+        this.showAddDialog(oModel, oEvent);
+    },
+    
+    showAddDialog: function showAddDialog(oModel, oEvent) {
+        this.dialogType = "createFacetRow" ;
+        var fragmentName ="c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.dialog." + this.tableName + "Add";
+        this._oDialog = sap.ui.xmlfragment(fragmentName, this);
+        this.getView().addDependent(this._oDialog);
+        
+        var oViewModel = new sap.ui.model.json.JSONModel();
+        oViewModel.setSizeLimit(260);
+        this._oDialog.setModel(oViewModel);
+        
+        var viewData =this.viewData[this.tableName];
+        this.resetFormForDialog(viewData);
+        ///
+         function updateModel() {
+           // oViewModel.setData(this.viewData[this.tableName]);
+            this.oViewModel.setData(this.scope.viewData[this.scope.tableName]);
+        }
+        
+        var isAttachment = this.tableName.match(/Attachment/),
+            afterRenderingSuper = this._oDialog.onAfterRendering.bind(this._oDialog);
+        
+        this._oDialog.fixUI = function(hide, url, upload) {
+            
+            if (isAttachment) {
+                
+                var $dialog = this.getDomRef(),
+                    $url = $('div[id*="LinkWebURI"]', $dialog).parents('.sapMVBox').parent(),
+                    $form = $('form[enctype*="multipart"]', $dialog).parents('.sapMVBox').parent(),
+                    $upload = $('form input[id*="fu_input"], form button', $dialog),
+                    $combo = sap.ui.getCore().byId(
+                        $('div[id^="CategoryCode"]', $dialog).attr('id')
+                    );
+                
+                 
+                if(!$combo){
+                    //this mean that annotation not configured well
+                    return false;
+                }
+                if (url) {                    
+                    $url[hide ? 'hide' : 'show']();
+                }
+                
+                if (upload) {
+                    $form[hide ? 'hide' : 'show']();
+                }
+
+                if ($combo.getSelectedKey().length === 0) {
+
+                    $combo.attachSelectionChange(
+                        function(oEvent){
+                            var selected = oEvent.getSource().getSelectedKey();
+                            
+                            if (selected === '3') {
+                                $url.show();
+                                $form.hide();
+                            }
+                            
+                            if (selected === '2') {
+                                $url.hide();
+                                $form.show();
+                            }
+                        }
+                    );
+                    
+                    var css = 'width:280px !important';
+
+                    $($upload[0]).attr('style', $($upload[0]).attr('style') + ';' + css + ';');
+                    $upload.css({height: 40});
+
+                    $combo.setSelectedKey(2);
+                    $url.hide();
+                    $form.show();
+                }
+            }
+        };
+        
+        this._oDialog.onAfterRendering = function (){
+            afterRenderingSuper();
+            this.fixUI(true, true, true);      
+        };
+        
+        var comboboxes = this.valueHelpersMetaData[this.tableName].combobox || {};
+        this.comboCounter = Object.keys(comboboxes).length;
+        var oData =this.getView().getModel("ObjectPageModel").getData();
+        var readData = oData[ window._generalNameSpace.businessObject.semanticObject];
+        var receiveContentFromBackend;
+        $.each(comboboxes,function(key,value){
+            receiveContentFromBackend = !this.isComboxValuesLoaded(readData, comboboxes[key].CollectionPath);
+            if (receiveContentFromBackend){
+                    this.showBusyIndicator();
+                    var opts = {
+                        viewData :viewData, 
+                        readData:readData,
+                        combobox : comboboxes[key],
+                        upadetDataCallback:updateModel.bind({
+                                    oViewModel:oViewModel,
+                                    scope:this
+                                    })
+                    };
+                    this.getComboBoxValues(opts);
+                } else {    
+                    viewData[comboboxes[key].CollectionPath] = readData[comboboxes[key].CollectionPath];
+                }
+        }.bind(this));
+        ///
+        oViewModel.setData(this.viewData[this.tableName]);
+        // toggle compact style
+        jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+        this._oDialog.open();
+    },
+    
+    resetFormForDialog: function(data){
+		var i;
+		 for (i in data) {
+            if (data.hasOwnProperty(i)) {
+               data[i] = null; 
+            }
+        }
+	},
+    base64ArrayBuffer: function base64ArrayBuffer(arrayBuffer) {
+        
+        if (!Uint8Array) {
+            
+            function base64Encode(str) {
+                var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                var out = "", i = 0, len = str.length, c1, c2, c3;
+                while (i < len) {
+                    c1 = str.charCodeAt(i++) & 0xff;
+                    if (i == len) {
+                        out += CHARS.charAt(c1 >> 2);
+                        out += CHARS.charAt((c1 & 0x3) << 4);
+                        out += "==";
+                        break;
+                    }
+                    c2 = str.charCodeAt(i++);
+                    if (i == len) {
+                        out += CHARS.charAt(c1 >> 2);
+                        out += CHARS.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
+                        out += CHARS.charAt((c2 & 0xF) << 2);
+                        out += "=";
+                        break;
+                    }
+                    c3 = str.charCodeAt(i++);
+                    out += CHARS.charAt(c1 >> 2);
+                    out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                    out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+                    out += CHARS.charAt(c3 & 0x3F);
+                }
+                return out;
+            }
+            return base64Encode(arrayBuffer);
+        }
+      var base64    = ''
+      var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    
+      var bytes         = new Uint8Array(arrayBuffer)
+      var byteLength    = bytes.byteLength
+      var byteRemainder = byteLength % 3
+      var mainLength    = byteLength - byteRemainder
+    
+      var a, b, c, d
+      var chunk
+    
+      // Main loop deals with bytes in chunks of 3
+      for (var i = 0; i < mainLength; i = i + 3) {
+        // Combine the three bytes into a single integer
+        chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
+    
+        // Use bitmasks to extract 6-bit segments from the triplet
+        a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
+        b = (chunk & 258048)   >> 12 // 258048   = (2^6 - 1) << 12
+        c = (chunk & 4032)     >>  6 // 4032     = (2^6 - 1) << 6
+        d = chunk & 63               // 63       = 2^6 - 1
+    
+        // Convert the raw binary segments to the appropriate ASCII encoding
+        base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
+      }
+    
+      // Deal with the remaining bytes and padding
+      if (byteRemainder == 1) {
+        chunk = bytes[mainLength]
+    
+        a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
+    
+        // Set the 4 least significant bits to zero
+        b = (chunk & 3)   << 4 // 3   = 2^2 - 1
+    
+        base64 += encodings[a] + encodings[b] + '=='
+      } else if (byteRemainder == 2) {
+        chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
+    
+        a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
+        b = (chunk & 1008)  >>  4 // 1008  = (2^6 - 1) << 4
+    
+        // Set the 2 least significant bits to zero
+        c = (chunk & 15)    <<  2 // 15    = 2^4 - 1
+    
+        base64 += encodings[a] + encodings[b] + encodings[c] + '='
+      }
+    
+      return base64;
+    },
+    
+    base64: function base64() {
+
+        "use strict";
+
+        var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+        /**
+         * _utf8_encode
+         * @param string
+         * @returns {string}
+         * @private
+         */
+        var _utf8_encode = function (string) {
+
+            var utftext = "", c, n;
+
+            string = string.replace(/\r\n/g, "\n");
+
+            for (n = 0; n < string.length; n++) {
+
+                c = string.charCodeAt(n);
+
+                if (c < 128) {
+
+                    utftext += String.fromCharCode(c);
+
+                } else if ((c > 127) && (c < 2048)) {
+
+                    utftext += String.fromCharCode((c >> 6) | 192);
+                    utftext += String.fromCharCode((c & 63) | 128);
+
+                } else {
+
+                    utftext += String.fromCharCode((c >> 12) | 224);
+                    utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utftext += String.fromCharCode((c & 63) | 128);
+
+                }
+
+            }
+
+            return utftext;
+        };
+
+        /**
+         * _utf8_decode
+         * @param utftext
+         * @returns {string}
+         * @private
+         */
+        var _utf8_decode = function _utf8_decode(utftext) {
+            var string = "", i = 0, c = 0, c1 = 0, c2 = 0;
+
+            while (i < utftext.length) {
+
+                c = utftext.charCodeAt(i);
+
+                if (c < 128) {
+
+                    string += String.fromCharCode(c);
+                    i++;
+
+                } else if ((c > 191) && (c < 224)) {
+
+                    c1 = utftext.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c1 & 63));
+                    i += 2;
+
+                } else {
+
+                    c1 = utftext.charCodeAt(i + 1);
+                    c2 = utftext.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c1 & 63) << 6) | (c2 & 63));
+                    i += 3;
+
+                }
+
+            }
+
+            return string;
+        };
+
+        /**
+         * _hexEncode
+         * @param input
+         * @returns {string}
+         * @private
+         */
+        var _hexEncode = function _hexEncode(input) {
+            var output = '', i;
+
+            for (i = 0; i < input.length; i++) {
+                output += input.charCodeAt(i).toString(16);
+            }
+
+            return output;
+        };
+
+        /**
+         * _hexDecode
+         * @param input
+         * @returns {string}
+         * @private
+         */
+        var _hexDecode = function _hexDecode(input) {
+            var output = '', i;
+
+            if (input.length % 2 > 0) {
+                input = '0' + input;
+            }
+
+            for (i = 0; i < input.length; i = i + 2) {
+                output += String.fromCharCode(parseInt(input.charAt(i) + input.charAt(i + 1), 16));
+            }
+
+            return output;
+        };
+
+        /**
+         * encode
+         * @param input
+         * @returns {string}
+         */
+        var encode = function encode(input) {
+            var output = "", chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0;
+
+            input = _utf8_encode(input);
+
+            while (i < input.length) {
+
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
+
+                output += _keyStr.charAt(enc1);
+                output += _keyStr.charAt(enc2);
+                output += _keyStr.charAt(enc3);
+                output += _keyStr.charAt(enc4);
+
+            }
+
+            return output;
+        };
+
+        /**
+         * decode
+         * @param input
+         * @returns {string}
+         */
+        var decode = function decode(input) {
+            var output = "", chr1, chr2, chr3, enc1, enc2, enc3, enc4, i = 0;
+
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+            while (i < input.length) {
+
+                enc1 = _keyStr.indexOf(input.charAt(i++));
+                enc2 = _keyStr.indexOf(input.charAt(i++));
+                enc3 = _keyStr.indexOf(input.charAt(i++));
+                enc4 = _keyStr.indexOf(input.charAt(i++));
+
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+
+                output += String.fromCharCode(chr1);
+
+                if (enc3 !== 64) {
+                    output += String.fromCharCode(chr2);
+                }
+                if (enc4 !== 64) {
+                    output += String.fromCharCode(chr3);
+                }
+
+            }
+
+            return _utf8_decode(output);
+        };
+
+        /**
+         * decodeToHex
+         * @param input
+         * @returns {string}
+         */
+        var decodeToHex = function decodeToHex(input) {
+            return _hexEncode(decode(input));
+        };
+
+        /**
+         * encodeFromHex
+         * @param input
+         * @returns {string}
+         */
+        var encodeFromHex = function encodeFromHex(input) {
+            return encode(_hexDecode(input));
+        };
+
+        return {
+            'encode': encode,
+            'decode': decode,
+            'decodeToHex': decodeToHex,
+            'encodeFromHex': encodeFromHex
+        };
+    },
+    
+    handleFileSelect: function handleFileSelect(oEvent) {
+        
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+            
+            // Get file 
+            var file = oEvent.oSource.oFileUpload.files[0];
+           
+            if (typeof(file) === 'undefined') {
+                return false;
+            }
+           
+            // Define reader and base64
+            var reader = new FileReader(),
+                base64 = this.base64();
+            
+            reader.onloadend = function(evt) {
+                if (evt.target.readyState === this.reader.DONE) {
+                    
+                    var chars  = new Uint8Array(evt.target.result);
+                    var CHUNK_SIZE = 0x8000; 
+                    var index = 0;
+                    var length = chars.length;
+                    var result = '';
+                    var slice;
+                    while (index < length) {
+                        slice = chars.subarray(index, Math.min(index + CHUNK_SIZE, length)); 
+                        result += String.fromCharCode.apply(null, slice);
+                        index += CHUNK_SIZE;
+                    }
+                    this.scope.viewData[this.scope.tableName].Binary = 
+                        window.btoa(result);
+                        // evt.target.result.match(/base64,(.+)/)[1]; 
+                }
+            }.bind({
+                scope: this,
+                reader: reader
+            });
+
+            reader.readAsArrayBuffer(file);                
+            // reader.readAsDataURL(
+            //     file.slice(0, file.size - 1)
+            // );
+            
+            this.viewData[this.tableName].MimeType = file.type;
+           
+        } else {
+            //alert('The File APIs are not fully supported in this browser.');
+        }                
+    },
+    
+    isValidAddUpdateForm: function isValidAddUpdateForm(isAdd) {
+        var fragment = sap.ui.getCore().byId((this.tableName + (isAdd ? "_Form" : "_UpdateForm")));
+        var isValid = this.isValidFormInFragment(fragment);
+        return isValid;
+    },
+    
+    confirmAdd: function confirmAdd(oEvent) {
+        if(!this.isValidAddUpdateForm(true)){
+            return;
+        }
+        
+        var itemtoAdd = {};
+        var addData = {};
+        var viewData = this._oDialog.getModel().getData();
+        $.each(viewData,function(key,value){
+            if(typeof (value) === "string"){
+                itemtoAdd[key]=value;
+            }
+        });
+        this.handleExit();
+        
+        ///temporary populateItem
+
+        addData.tableName =this.tableName; 
+        var oModelDetailsPage = this.getView().getModel(this.modelName);
+        var dataDetailsPage  = oModelDetailsPage.getData();
+        itemtoAdd.ParentObjectID =dataDetailsPage[window._generalNameSpace.businessObject.semanticObject].ObjectID;
+        //////////////////////////////
+        
+        addData.itemToAdd = itemtoAdd;
+        this.showBusyIndicator();
+        
+        BackendCall.doCall({
+            successCallback: this._onAddSuccess.bind({
+                scope: this,
+                data: addData
+            }),
+            errorCallback: this._onError.bind({
+                scope: this
+            }),
+            completeCallback: this._onAddComplete.bind({
+                scope: this
+            }),
+            method: "POST",
+            data: JSON.stringify(addData.itemToAdd),
+            url: window._generalNameSpace.businessObject.oDataService +"/" + addData.tableName +"Collection",
+            contentType: "application/json;charset=utf-8"});        
+    },
+    
+    _onAddComplete: function _onAddComplete() {
+        this.scope.hideBusyIndicator();
+    },
+    
+    _onAddSuccess: function _onAddSuccess(xmlDoc) {
+        var props = $(xmlDoc).find("m\\:properties, properties").children();
+        this.scope.addRowFromResponse(this.scope, this.data,props);
+        
+        //add toastMessage 
+        bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle();
+        sap.m.MessageToast.show(bundle.getText('starterDetailsPage.dialog.create.record'));
+        
+        this.scope.handleEditBtn(
+            this.scope.getView().getModel('ObjectPageModel').getData()[this.data.tableName],
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.deleteBtn').attr('id'))
+        );
+        this.scope.editButtonEnabled(
+             this.scope.getView().getModel('ObjectPageModel').getData()[this.data.tableName],
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.updateBtn').attr('id'))
+            );
+    },
+    
+    confirmUpdate: function confirmUpdate(oEvent) {
+        if(!this.isValidAddUpdateForm(false)){
+            return;
+        }
+        var itemtoUpdate = {};
+        var updateData = {};
+        var viewData = this._oDialog.getModel().getData();
+        $.each(viewData,function(key,value){
+            if(typeof (value) === "string"){
+                //verify that this is updatable field
+                itemtoUpdate[key] = value;
+            }
+        });
+        this.handleExit();
+        
+        updateData.tableName = this.tableName; 
+        var oModelDetailsPage = this.getView().getModel(this.modelName);
+        var dataDetailsPage  = oModelDetailsPage.getData();
+       
+        updateData.index = this._oDialog.editRowIndex;
+        var objectId = itemtoUpdate.ObjectID;
+        updateData.itemtoUpdate = itemtoUpdate;
+        updateData.ParentObjectID = dataDetailsPage[window._generalNameSpace.businessObject.semanticObject].ObjectID;
+        this.showBusyIndicator();
+        
+        BackendCall.doCall({
+            successCallback: this._onUpdateFacetRowSuccess.bind({
+                scope: this,
+                data: updateData
+            }),
+            errorCallback: this._onError.bind({
+                scope: this
+            }),
+            completeCallback: this._onAddComplete.bind({
+                scope: this
+            }),
+            method: "PUT",
+            data: JSON.stringify(updateData.itemtoUpdate),
+            url: window._generalNameSpace.businessObject.oDataService +"/" + updateData.tableName +"Collection('" + objectId +"')",
+            contentType: "application/json;charset=utf-8"});     
+    },
+    
+    _onUpdateFacetRowSuccess: function _onAddSuccess(xmlDoc) {
+        this.scope.updateRow(this.scope,this.data);
+        bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle();
+        sap.m.MessageToast.show(bundle.getText('starterDetailsPage.dialog.facetUpdate.record'));
+        
+       /* 
+        this.scope.handleEditBtn(
+            this.scope.getView().getModel('ObjectPageModel').getData()[this.data.tableName],
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.deleteBtn').attr('id'))
+        );*/
+        this.scope.editButtonEnabled(
+            this.scope.getView().getModel('ObjectPageModel').getData()[this.data.tableName],
+            sap.ui.getCore().byId(this.scope.getView().$().find('button.updateBtn').attr('id'))
+            );
+    },
+    
+    updateRow:function(scope,data){
+            var item = data.itemtoUpdate;
+            var oModel = scope.getView().getModel(scope.modelName),
+            modelData = oModel.getData(),
+            items = modelData[data.tableName];
+            items[data.index] = item;
+            oModel.setData(modelData);
+    },
+    
+    enableDelete: function enableDelete(oEvent) {
+        var oTable = this.getOTable(oEvent),
+            oButton = oEvent.getSource(),
+            $btn = oButton.$().find('div:first'),
+            $add = $btn.parents('div[id*=toolbar]:first').find('.addBtn'),
+            $edit = $btn.parents('div[id*=toolbar]:first').find('.updateBtn'),
+            oAddButton = sap.ui.getCore().byId($add.attr('id')),
+            oEditButton = sap.ui.getCore().byId($edit.attr('id')),
+            isDeleteMode = oTable.getMode() === 'Delete';
+            
+        if (isDeleteMode) {
+            this.disableEdit(oEvent);
+        } else {
+            oTable.setMode('Delete');
+        }
+        
+        $btn[isDeleteMode ? 'removeClass' : 'addClass']('btnActive');
+        
+        if (oAddButton) {
+            oAddButton.setEnabled(isDeleteMode);
+        }
+        
+        if(oEditButton) {
+            oEditButton.setEnabled(isDeleteMode);
+        }
+    },
+    enableEdit: function enableEdit(oEvent) {
+        var oTable = this.getOTable(oEvent),
+            oButton = oEvent.getSource(),
+            $btnEdit = oButton.$().find('div:first'),
+            $add = $btnEdit.parents('div[id*=toolbar]:first').find('.addBtn'),
+            $delete = $btnEdit.parents('div[id*=toolbar]:first').find('.deleteBtn'),
+            oAddButton = sap.ui.getCore().byId($add.attr('id')),
+            oDeleteButton = sap.ui.getCore().byId($delete.attr('id'));
+        var mode =this.getFacetState(this.tableName);
+        var isEditMode = (mode === "edit");
+         var oTableColumns = oTable.getColumns();    
+        if (isEditMode) {
+           //button Edit pressed click on button disable Edit  
+            oTableColumns[oTableColumns.length-1].setVisible(false);
+            this.setFacetState(this.tableName,"view");
+        } else {
+            //button Edit unpressed click on button enable edit
+            oTableColumns[oTableColumns.length-1].setVisible(true);
+            this.setFacetState(this.tableName,"edit");
+        }
+        
+        $btnEdit[isEditMode ? 'removeClass' : 'addClass']('btnActive');
+        
+        if (oAddButton) {
+            oAddButton.setEnabled(isEditMode);
+        }
+        
+        if(oDeleteButton) {
+            oDeleteButton.setEnabled(isEditMode);
+        }
+    },
+    disableEdit: function disableEdit(oEvent) {
+        var oTable = this.getOTable(oEvent);
+        oTable.setMode('None');
+    },
+    
+     setFacetState:function(tableName, state){
+         var facetsStateModel = this.getView().getModel("facetStateModel"),
+			 modelFacetsStateData =  facetsStateModel.getData();
+		modelFacetsStateData[tableName] = modelFacetsStateData[tableName] || {};	 
+		modelFacetsStateData[tableName].state = state;
+		facetsStateModel.setData(modelFacetsStateData);
+    },
+    
+    getFacetState:function(){
+         var facetsStateModel = this.getView().getModel("facetStateModel"),
+			 modelFacetsStateData =  facetsStateModel.getData();
+		return modelFacetsStateData[this.tableName].state;
+    },
+    
+    editButtonEnabled :function(items, oEditButton){
+
+        if (!oEditButton) {
+            return false;
+        }
+          
+        var oTable = sap.ui.getCore().byId(jQuery('.' + this.tableName)[0].id);
+		var isDeleteMode = false;
+	    if (oTable.getMode && oTable.getMode() === 'Delete') {
+		    isDeleteMode = true;
+	    }
+                
+        var length = items.length > 0;
+           
+        oEditButton.setEnabled(length && !isDeleteMode); 
+        if(this.getFacetState() === "edit"){
+            var $btn = oEditButton.$().find('div:first');
+            $btn.addClass('btnActive');
+        }
+        else{
+         var $btn = oEditButton.$().find('div:first');
+            $btn.removeClass('btnActive');
+        }
+    },
+    onEditFacetItem:function onEditFacetItem(oEvent){
+        this.dialogType = "updateFacetRow";
+        var fragmentName ="c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.dialog." + this.tableName + "Update";
+        this._oDialog = sap.ui.xmlfragment(fragmentName, this);
+        this.getView().addDependent(this._oDialog);
+        
+        var oViewModel = new sap.ui.model.json.JSONModel();
+        var path = oEvent.oSource.oPropagatedProperties.oBindingContexts.ObjectPageModel.sPath;
+        var idx = parseInt(path.substring(path.lastIndexOf('/') + 1), 10);
+        var data = this.getView().getModel(this.modelName).getData();
+        var items = data[this.tableName];
+        var currentRow = jQuery.extend({}, items[idx]);
+        
+
+        function updateModel() {
+            var currentVal = this.currentRow[this.key];
+            this.currentRow[this.combobox.CollectionPath].Value = this.scope.getSelectedValueOfComboBox(currentVal,this.currentRow[this.combobox.CollectionPath]);
+            this.oViewModel.setData(this.currentRow);
+        }
+        
+        var comboboxes = this.valueHelpersMetaData[this.tableName].combobox || {};
+        this.comboCounter = Object.keys(comboboxes).length;
+        var oData =this.getView().getModel("ObjectPageModel").getData();
+        var readData = oData[ window._generalNameSpace.businessObject.semanticObject];
+        var receiveContentFromBackend;
+        $.each(comboboxes,function(key,value){
+            receiveContentFromBackend=!this.isComboxValuesLoaded(readData, comboboxes[key].CollectionPath);
+            if (receiveContentFromBackend){
+                    this.showBusyIndicator();
+                    var opts = {
+                        viewData :currentRow, 
+                        readData:readData,
+                        combobox : comboboxes[key],
+                        upadetDataCallback:updateModel.bind({
+                                    oViewModel:oViewModel,
+                                    currentRow:currentRow,
+                                    key:key,
+                                    combobox : comboboxes[key],
+                                    scope:this
+                                    })
+                    };
+                    this.getComboBoxValues(opts);
+                } else {    
+                    currentRow[comboboxes[key].CollectionPath] = readData[comboboxes[key].CollectionPath];
+                    var currentVal = currentRow[key];
+                    currentRow[comboboxes[key].CollectionPath].Value = this.getSelectedValueOfComboBox(currentVal,currentRow[comboboxes[key].CollectionPath]);
+                }
+        }.bind(this));
+
+        oViewModel.setData(currentRow);
+        oViewModel.setSizeLimit(260);
+        
+        this._oDialog.setModel(oViewModel);
+        this._oDialog.editRowIndex = idx;
+        
+         // toggle compact style
+        jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oDialog);
+        this._oDialog.open();
+    },
+    
+    isComboxValuesLoaded:function isComboxValuesLoaded(readData,entityCollection){
+        var notExist = (typeof(readData[entityCollection])  === 'undefined' && typeof(readData[entityCollection + 'Value'])  === 'undefined');
+        return !notExist;
+    },
+    
+    getSelectedValueOfComboBox : function getSelectedValueOfComboBox(currentVal,data){
+        for (var i = 0, l = data.length;i < l;i++) {
+            if(data[i].Code === currentVal){
+                return data[i].Description;
+            }
+        }   
+    }, 
+    _formFragments: {},
+    _getFormFragment: function (sFragmentName) {
+        
+        var oFormFragment = this._formFragments[sFragmentName];
+
+        if (oFormFragment) {
+            return oFormFragment;
+        }
+
+        oFormFragment = sap.ui.xmlfragment(
+            this.getView().getId(), 
+            "c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.details" + sFragmentName,
+            this
+        );
+        return this._formFragments[sFragmentName] = oFormFragment;
+    },
+  
+    handleOverviewEdit: function enableOverviewEdit(oEvent) {
+        var oButton = oEvent.getSource();
+            
+        if (oButton.isActive()) {
+            this.overViewEdit = oButton;
+            this.enableOverviewEdit(oEvent);
+        }
+    },
+    
+    showHideConfirmCancelBtns: function showHideConfirmCancelBtns(oEvent, showConfirmCancel) {
+        var toolBar = oEvent.getSource().getParent();
+        var toolBarChildren = toolBar.getAggregation('content');
+        var i;
+        
+        for (i = 0; i < toolBarChildren.length; i++) {
+            if (toolBarChildren[i].hasStyleClass('cancelBtn') || toolBarChildren[i].hasStyleClass('confirmBtn')) {
+                toolBarChildren[i].setVisible(showConfirmCancel);
+            } else if (toolBarChildren[i].hasStyleClass('edit-overview')) {
+                toolBarChildren[i].setVisible(!showConfirmCancel);
+            }
+        }
+    },
+    
+    enableOverviewEdit: function enableOverviewEdit(oEvent) {
+        this.setDataToEditOverview();
+        var oButton = oEvent.getSource(),
+            $btn = oButton.$();
+    
+        this.showHideConfirmCancelBtns(oEvent, true);
+        
+        var vLayout = sap.ui.getCore().byId(oButton.getParent().$().next()[0].id);
+        
+        vLayout.removeAllContent();
+        vLayout.insertContent(
+            this._getFormFragment("Edit")
+        );
+    },
+    setDataToEditOverview:function setDataToEditOverview(){
+        var oData =this.getView().getModel("ObjectPageModel").getData();
+        var readData = oData[window._generalNameSpace.businessObject.semanticObject];
+        var bo = window._generalNameSpace.businessObject.semanticObject;
+        var editData = this.viewData[bo];
+        var oEditModel = new sap.ui.model.json.JSONModel();
+        oEditModel.setSizeLimit(260);
+        var comboboxes = this.valueHelpersMetaData[bo].combobox || {};
+        this.comboCounter = Object.keys(comboboxes).length;
+        
+       
+        function updateModel() {
+            var boName = {};
+            boName[window._generalNameSpace.businessObject.semanticObject] = this.editData;
+            this.oEditModel.setData(boName);
+            this.scope.getView().setModel(this.oEditModel, "EditObjectPageModel");
+        }
+        
+        $.each(editData,function(key,value){
+            
+            var currentValue = readData[key];
+            var receiveContentFromBackend;
+            
+            editData[key] = currentValue;
+            
+            if (comboboxes[key]) {
+                receiveContentFromBackend = !this.isComboxValuesLoaded(readData, comboboxes[key].CollectionPath);
+                if (receiveContentFromBackend){
+                    this.showBusyIndicator();
+                    
+                     var opts = {
+                        viewData :editData, 
+                        readData:readData,
+                        combobox : comboboxes[key],
+                       currentValue:currentValue,
+                        upadetDataCallback:updateModel.bind({
+                                    scope:this,
+                                    editData:editData,
+                                    oEditModel:oEditModel
+                                    })
+                    };
+                    this.getComboBoxValues(opts);
+                } else {
+                    
+                    editData[comboboxes[key].CollectionPath] = readData[comboboxes[key].CollectionPath];
+                    editData[comboboxes[key].CollectionPath + 'Value'] = readData[comboboxes[key].CollectionPath + 'Value'];
+                }
+            }
+        }.bind(this));
+        
+        updateModel.bind({scope:this,
+                        editData:editData,
+                        oEditModel:oEditModel})();    
+    },
+    disableOverviewEdit: function disableOverviewEdit(oEvent) {
+        var oButton = oEvent.getSource();
+            
+        this.showHideConfirmCancelBtns(oEvent, false);    
+        
+        var vLayout = sap.ui.getCore().byId(oButton.getParent().$().next()[0].id);
+        
+        vLayout.removeAllContent();
+        vLayout.insertContent(
+            this._getFormFragment("Display")
+        );
+    },
+
+    getFormView : function getFormView() {
+       return this.getView().byId("{{currentBO.selectedBO}}_Form");
+    },
+    
+    handleConfirmEdit: function handleConfirmEdit(oEvent) {
+        
+        if(!this.isValidForm()){
+            return;
+        }
+        
+        var form = this.getFormView();
+        var oModel =this.getView().getModel("ObjectPageModel").getData();
+        var readData = oModel[window._generalNameSpace.businessObject.semanticObject];
+        var oEditModel = this.getView().getModel("EditObjectPageModel").getData()
+        
+        var editData = oEditModel[window._generalNameSpace.businessObject.semanticObject];
+        //this.viewData[window._generalNameSpace.businessObject.semanticObject];
+        
+        var currentValue;
+        var updateData = {};
+
+        var postData ={};
+        var updateFieldsName = this.updateFields;
+        
+        $.each(readData, function(key, value){
+            
+            if ($.inArray(key,updateFieldsName) !== -1){
+                
+                if (typeof (value) === "string"){
+                
+                    if (typeof editData[key] !== "undefined" ){
+                        currentValue = editData[key];
+                    } else{
+                        currentValue = readData[key];
+                    }
+
+                    postData[key] = currentValue;
+                }
+            }
+        });
+        
+        updateData.data = postData;
+        updateData.editedData = editData;
+        updateData.ObjectID =readData.ObjectID;
+        updateData.event = oEvent;
+
+        this.showBusyIndicator();
+        
+        BackendCall.doCall({
+            successCallback: this._onUpdateSuccess.bind({
+                scope: this,
+                data: updateData
+            }),
+            errorCallback: this._onError.bind({
+                scope: this
+            }),
+            completeCallback: this._onUpdateComplete.bind({
+                scope: this,
+                source: oEvent.getSource()
+            }),
+            data: JSON.stringify(updateData.data),
+            method: "PUT",
+            url: window._generalNameSpace.businessObject.oDataService + "/" + window._generalNameSpace.businessObject.semanticObject + "Collection" + "('" + updateData.ObjectID + "')",
+            contentType: "application/json;charset=utf-8"});   
+    },
+
+    _onUpdateComplete: function _onUpdateComplete() {
+        var source = this.source;
+        this.scope.disableOverviewEdit({
+            getSource: function() {
+                return source;
+            }
+        });
+        this.scope.hideBusyIndicator();
+    },
+    
+    _onUpdateSuccess: function _onUpdateSuccess() {
+        var oModel = this.scope.getView().getModel("ObjectPageModel");
+        var modelData = oModel.getData();
+        var readData = modelData[window._generalNameSpace.businessObject.semanticObject];
+        var editData = this.data.editedData;
+        
+        $.each(editData,function(key,value){
+            var currentValue = editData[key];
+            readData[key] = currentValue;
+        });
+        modelData[window._generalNameSpace.businessObject.semanticObject] = readData;
+        oModel.setData(modelData);
+        var oEvent = this.data.event;
+        
+        var bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle();
+        sap.m.MessageToast.show(bundle.getText('starterDetailsPage.dialog.update.record'));
+    },
+    
+    handleCancelEdit: function handleCancelEdit(oEvent) {
+        delete this.overViewEdit;
+        this.disableOverviewEdit(oEvent);
+        this.resetForm();
+    },
+    
+    getOTable: function getOTable(oEvent) {
+        this.setEditableContext(oEvent.getSource());
+        return sap.ui.getCore().byId(jQuery('.' + this.tableName)[0].id);
+    },
+    
+    setEditableContext: function(src) {
+        this.tableName = src.data('table');
+        this.modelName = src.data('model');
+    },
+    
+    
+    
+    restoreRow:function(scope,data){
+            var item = data.deletedItem;
+            var oModel = scope.getView().getModel(scope.modelName),
+            modelData = oModel.getData(),
+            items = modelData[data.tableName];// || [];
+            items.splice(data.indexDeletedItem,0,item);
+            oModel.setData(modelData);
+    },
+    
+    
+    addRowFromResponse : function(scope,data,props){
+         var oModel = scope.getView().getModel(scope.modelName),
+         modelData = oModel.getData(),
+        items = modelData[data.tableName];// || [];
+        if(!items) {
+            console.error('Unable to define items', modelData, data.tableName);
+        }
+        //claculateItem;
+        var item={};
+        $.each(props,function(){
+            var n = this.nodeName;
+            var propName = n.split(":")[1];
+            item[propName] = $(this).text();
+        });
+        items.splice(data.indexDeletedItem,0,item);
+        oModel.setData(modelData);
+        
+        var oCountModel = scope.getView().getModel("tableCountModel"),
+			 modelCountData =  oCountModel.getData();
+		modelCountData[data.tableName + "Count"] = items.length;
+		oCountModel.setData(modelCountData);
+    },
+
+    updateBOAfterChange:function (xmlDoc,status){
+		if(status === "success"){
+                var props = $(xmlDoc).find("m\\:properties, properties").children();
+                var oModel = this.scope.getView().getModel(this.scope.modelName);
+                var modelData = oModel.getData();
+                var item = {};
+                    $.each(props,function(){
+                    var n = this.nodeName;
+                    var propName = n.split(":")[1];
+                    item[propName] = $(this).text();
+                });
+                //modelData[this.scope.tableName] = item;
+				modelData[window._generalNameSpace.businessObject.semanticObject] = item;
+                oModel.setData(modelData);
+                
+                var bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle();
+                sap.m.MessageToast.show(bundle.getText('starterDetailsPage.action.success.notification'));
+        }
+            
+        this.scope.hideBusyIndicator();    
+	},
+
+    fnDateTimeFormatter: function fnDateTimeFormatter(oValue) {
+        oValue += '';
+        if (typeof(oValue) === 'undefined' || oValue.length === 0) {  
+            return;  
+        }  
+        return new Date(oValue);  
+    },
+    
+    formatDate: function(date) {
+        if (typeof date === "undefined") {
+            return "";
+        }
+        
+        var dateFormat = sap.ui.core.format.DateFormat.getInstance({style: "long"});
+        return dateFormat.format(new Date(date));
+    },
+    
+    formatTimeDate: function(date) {
+        if (typeof date === "undefined") {
+            return "";
+        }
+        
+        var dateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance();
+        return dateTimeFormat.format(new Date(date));
+    },
+    
+    getObjectIdByFunctionImport: function(functionImport, callback) {
+        var id,
+            url = window._generalNameSpace.businessObject.oDataService + "/" + functionImport;
+        
+        BackendCall.doCall({
+            successCallback: this._onSuccess.bind({callback: callback}),
+            errorCallback: this._onError.bind({
+                scope:this
+            }),
+            method: "GET",
+            url: url,
+            contentType: "application/atom+xml;type=entry; charset=utf-8"});
+    },
+    
+    _onSuccess: function _onSuccess(data) {
+        var id = $(data).find("d\\:ObjectID, ObjectID").text();
+        this.callback(id);
+    },
+    
+    _onError: function _onError(xhr) {
+        if (this.callBefore){
+            this.callBefore(null);
+        }
+        
+        var errorMessage,
+            bundle = this.scope.getView().getModel('i18n_Static').getResourceBundle(),
+            bodyError = bundle.getText('dialog.body.error'),
+            title='';
+        
+        try {
+            var xmlObject = xhr.responseXML || xhr.response.body;
+            var errorDoc = $(xmlObject);
+            var error = errorDoc.find("message");
+            errorMessage = error.text() || bodyError;
+        }catch (err) {
+            errorMessage = bodyError;
+        }
+        
+		title = bundle.getText('dialog.title.error');
+		this.scope.hideBusyIndicator();
+        sap.m.MessageBox.show(errorMessage, {title: title, icon: sap.m.MessageBox.Icon.ERROR});
+    },
+
+    getFirstRowID:function(callback){
+        BackendCall.doCall({
+            successCallback: this._onSuccess.bind({
+                callback: callback
+            }),
+            errorCallback: this._onError.bind({
+                callBefore: callback,
+                scope:this
+                
+            }),
+            method: "GET",
+            url: window._generalNameSpace.businessObject.oDataService +"/" + window._generalNameSpace.businessObject.targetEntity +"?$skip=0&$top=1",
+            contentType: "application/atom+xml;type=entry; charset=utf-8"});
+    },
+
+    
+    handleComboChange: function handleComboChange(oEvent) {
+         var src = oEvent.getSource(),
+            name = src.getName();
+        
+        var text = "Text";
+        if( this.dialogType ){
+            var viewData = this._oDialog.getModel().getData();
+            viewData[name] = src.getSelectedKey();
+            if( this.dialogType === "updateFacetRow"){
+                 // Text model sync
+                if (name.indexOf(text) + text.length !== name.length) {
+                    viewData[name + text] = src.getSelectedItem().getText();                                    
+                }
+            }
+        } else { 
+            // it is edit overview case
+            var oModel = this.getView().getModel("EditObjectPageModel").getData();
+            var  editData = oModel[window._generalNameSpace.businessObject.semanticObject];
+            
+            editData[name] = src.getSelectedKey();       
+            // Text model sync
+            if (name.indexOf(text) + text.length !== name.length) {
+                editData[name + text] = src.getSelectedItem().getText();                                    
+            }
+            
+         }
+    },
+    
+    handleDateChange: function handleDateChange(oEvent) {
+
+        function getDate(value) {
+            var date = value.getDate();
+            return date < 10 ? '0' + date : date;
+        }
+        
+        function getMonth(value) {
+            var month = value.getMonth() + 1;
+            return month < 10 ? '0' + month : month;
+        }
+        
+        function getTime(value) {
+            return value.toTimeString().match(/\d{2}:\d{2}:\d{2}/)[0];
+        }
+        
+        function getDateTime(value, timestamp) {
+            var date = value.getFullYear() + '-' + getMonth(value) + '-' + getDate(value);
+            var time = timestamp ? getTime(value) : '00:00:00';
+            return date + 'T' + time + '.000';    
+        }
+            
+        var src = oEvent.getSource(),
+            value = src.getValue(),
+            name = src.getName();
+        
+        var oModel = this.getView().getModel("EditObjectPageModel").getData(),
+            editData = oModel[window._generalNameSpace.businessObject.semanticObject];
+
+        if (src.$().hasClass('sap-datepicker')) {
+            value = getDateTime(src.getDateValue(), false);
+        } 
+        
+        if (src.$().hasClass('sap-datetimepicker')) {
+            value = getDateTime(src.getDateValue(), true);
+        }
+        
+        editData[name] = value;
+    },
+    
+      getComboBoxValues :function getComboBoxValues(opts) {
+        var viewData = opts.viewData, 
+            readData = opts.readData,
+            combobox = opts.combobox,
+            currentValue = opts.currentValue,
+            upadetDataCallback = opts.upadetDataCallback;
+     BackendCall.doCall({
+            successCallback: function(xml, status, xhr){
+                var data = $(xml).find("m\\:properties, properties"),
+                    collection = [];
+                var value;
+                for (var i=0, l=data.length;i<l;i++) {
+                    var code = $(data[i]).find('d\\:Code, Code').text(),
+                        desc = $(data[i]).find('d\\:Description, Description').text();
+                    if(currentValue && code === currentValue)  {
+                        value = desc;
+                    }  
+                    if (!(this.url.match(/AttachmentCategoryCode/) && code === '1')) {
+                        collection.push({
+                           Code: code,
+                           Description: desc
+                        });
+                    }
+                }   
+                collection.sort(function(obj1,obj2){
+                    if (obj1.Description > obj2.Description){
+                        return 1;
+                    }
+                    if (obj1.Description < obj2.Description){
+                        return -1;
+                    }
+                    return 0;
+
+                });
+                viewData[combobox.CollectionPath] = collection;
+                readData[combobox.CollectionPath] = collection;
+                
+                if(currentValue) {
+                    viewData[combobox.CollectionPath + "Value"] = value;
+                    readData[combobox.CollectionPath + "Value"] = value;
+                }
+                upadetDataCallback();
+            },
+            errorCallback: this._onError.bind({
+                scope: this
+            }),
+            completeCallback: function(){
+                this.comboCounter -= 1;
+                
+                if (this.comboCounter === 0) {
+                    this.hideBusyIndicator();
+                }
+            }.bind(this),
+            method: "GET",
+            url: window._generalNameSpace.businessObject.oDataService +"/" + combobox.CollectionPath + 'Collection',
+            contentType: "application/json;charset=utf-8"
+        });
+     }
+});

@@ -1,0 +1,18 @@
+{
+	"name" : "c4cPlugin.service.RegenerateService",
+	"description" : "The Regenerate service interface",
+	"methods" : {
+		"generate" : {
+			"description": "Display a greeting message notification",
+			"params" : [
+				{
+					"name" : "serviceName",
+					"type" : "string",
+					"description" : "The service name"
+				}
+			]
+		}
+	},
+	"events" : {
+	}
+}

@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://rde-nwcp.dispatcher.neo.ondemand.com/destinations/axp-cust220/sap/public/ap/ui/mime/odata/sap_ui_vocabulary">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://rde-nwcp.dispatcher.neo.ondemand.com/destinations/axp-cust220/sap/public/ap/ui/mime/odata/sap_communication_vocabulary">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication" />
+    </edmx:Reference>
+    <edmx:Reference Uri="http://docs.oasis-open.org/odata/odata/v4.0/cs01/vocabularies/Org.OData.Measures.V1.xml">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://rde-nwcp.dispatcher.neo.ondemand.com/destinations/axp-cust220/sap/public/ap/ui/mime/odata/sap_common_vocabulary">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
+    </edmx:Reference>
+    <edmx:Reference Uri="https://rde-nwcp.dispatcher.neo.ondemand.com/destinations/axp-cust220/sap/c4c/odata/v1/pcmportal/$metadata">
+        <edmx:Include Namespace="pcmportal" Alias="CHP" />
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.sap.pa.CHPAnnotation" Alias="CHPAnnotation">
+            <Annotations Target="CHP.Partner">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Partner" />
+                        <PropertyValue Property="TypeNamePlural" String="Partners" />
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Value" Path="Name" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner ID" />
+                            <PropertyValue Property="Value" Path="PartnerID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Additional Name" />
+                            <PropertyValue Property="Value" Path="AdditionalName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="LifeCycleStatusCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="ABC Classification" />
+                            <PropertyValue Property="Value" Path="ABCClassification" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Web Site" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/Website" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Country" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/Country" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="House Number" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/HouseNumber" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Street" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/Street" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="City" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/City" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="State" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/State" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Postal Code" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/PostalCode" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/Phone" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Fax" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerAddress" />
+                            <PropertyValue Property="Value" Path="PartnerAddress/Fax" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Industry" />
+                            <PropertyValue Property="Value" Path="Industry" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="D-U-N-S" />
+                            <PropertyValue Property="Value" Path="DUNS" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Contact Permission" />
+                            <PropertyValue Property="Value" Path="ContactPermission" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created On" />
+                            <PropertyValue Property="Value" Path="CreatedOn" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created By" />
+                            <PropertyValue Property="Value" Path="CreatedByName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Changed On" />
+                            <PropertyValue Property="Value" Path="ChangedOn" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Changed By" />
+                            <PropertyValue Property="Value" Path="ChangedByName" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Partner Programs" />
+                            <PropertyValue Property="Target" AnnotationPath="PartnerProgram/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Partner Product Dimensions" />
+                            <PropertyValue Property="Target" AnnotationPath="PartnerProductDimensions/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Funds" />
+                            <PropertyValue Property="Target" AnnotationPath="Fund/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Loyalty" />
+                            <PropertyValue Property="Target" AnnotationPath="Loyalty/@UI.LineItem" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.PartnerProgram">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner Programme" />
+                            <PropertyValue Property="Value" Path="PartnerProgram" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Membership Id" />
+                            <PropertyValue Property="Value" Path="MembershipID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner Type" />
+                            <PropertyValue Property="Value" Path="PartnerType" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Agreement Start Date" />
+                            <PropertyValue Property="Value" Path="AgreementStartDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Agreement End Date" />
+                            <PropertyValue Property="Value" Path="AgreementEndDate" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.PartnerProductDimensions">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Dimension Status" />
+                            <PropertyValue Property="Value" Path="DimensionStatusCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product" />
+                            <PropertyValue Property="Value" Path="Product" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Start Date" />
+                            <PropertyValue Property="Value" Path="StartDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="End Date" />
+                            <PropertyValue Property="Value" Path="EndDate" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Fund">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Fund ID" />
+                            <PropertyValue Property="Value" Path="FundID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Fund Types" />
+                            <PropertyValue Property="Value" Path="FundType" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Initial Funds" />
+                            <PropertyValue Property="Value" Path="InitialFundAmount" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Approved Funds" />
+                            <PropertyValue Property="Value" Path="ApprovedFunds" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Claims In Draft" />
+                            <PropertyValue Property="Value" Path="ClaimstInDraft" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Claims In Process" />
+                            <PropertyValue Property="Value" Path="ClaimstInProcess" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Claims Settled" />
+                            <PropertyValue Property="Value" Path="ClaimSettled" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="At Risk To Expire" />
+                            <PropertyValue Property="Value" Path="AtRiskToExpire" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Funds Expired" />
+                            <PropertyValue Property="Value" Path="FundsExpired" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Loyalty">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Membership Id" />
+                            <PropertyValue Property="Value" Path="MembershipID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Partner Type" />
+                            <PropertyValue Property="Value" Path="PartnerType" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Contacts" />
+                            <PropertyValue Property="Value" Path="LoyaltyProgram" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Total Points" />
+                            <PropertyValue Property="Value" Path="TotalPoints" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Opportunity/AccountName">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="CollectionRoot" String="http://ynet.co.il/great/" />
+                        <PropertyValue Property="CollectionPath" String="Account" />
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="AccountNameLocal" />
+                                    <PropertyValue Property="ValueListProperty" String="AccountName" />
+                                </Record>
+
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="AccountID" />
+                                </Record>
+
+                                <Record Type="Common.ValueListParameterIn">
+                                    <PropertyValue Property="ValueListProperty" String="AccountIDSuper" />
+                                </Record>
+
+
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="ValueListProperty" String="AccountIDSuper" />
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="local1" />
+                                </Record>
+
+
+                                <Record Type="Common.ValueListParameterOut">
+                                    <PropertyValue Property="ValueListProperty" String="AccountIDSuper" />
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="local2" />
+                                </Record>
+
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Opportunity">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Opportunity" />
+                        <PropertyValue Property="TypeNamePlural" String="Opportunities" />
+                        <PropertyValue Property="ImageUrl" String="/coco/views/collaboration/icons/Opportunity_48.png" />
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Value" Path="OpportunityName" />
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record>
+                                <PropertyValue Property="Value" Path="Status" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="OpportunityName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account ID" />
+                            <PropertyValue Property="Value" Path="AccountID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="AccountName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Start Date" />
+                            <PropertyValue Property="Value" Path="StartDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Close Date" />
+                            <PropertyValue Property="Value" Path="CloseDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Cycle" />
+                            <PropertyValue Property="Value" Path="SalesCycle" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Phase" />
+                            <PropertyValue Property="Value" Path="SalesPhase" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Priority" />
+                            <PropertyValue Property="Value" Path="Priority" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Probability" />
+                            <PropertyValue Property="Value" Path="Probability" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Expected Value" />
+                            <PropertyValue Property="Value" Path="ExpectedRevenueValue" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Total Negotiated Value" />
+                            <PropertyValue Property="Value" Path="TotalNegotiatedValue" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Category" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Owner" />
+                            <PropertyValue Property="Value" Path="Owner" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Note" />
+                            <PropertyValue Property="Value" Path="Note" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="OpportunityName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="AccountName/content" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Owner" />
+                            <PropertyValue Property="Value" Path="OwnerName/content" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Expected Value" />
+                            <PropertyValue Property="Value" Path="ExpectedRevenueAmount/content" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Cycle" />
+                            <PropertyValue Property="Value" Path="SalesCycle" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Phase" />
+                            <PropertyValue Property="Value" Path="SalesPhase" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Products" />
+                            <PropertyValue Property="Target" AnnotationPath="OpportunityItem/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Contacts" />
+                            <PropertyValue Property="Target" AnnotationPath="OpportunityContacts/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Competitors" />
+                            <PropertyValue Property="Target" AnnotationPath="OpportunityCompetitors/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Sales Team" />
+                            <PropertyValue Property="Target" AnnotationPath="OpportunitySalesTeam/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Involved Parties" />
+                            <PropertyValue Property="Target" AnnotationPath="OpportunityInvolvedParties/@UI.LineItem" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.OpportunityItem">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product" />
+                            <PropertyValue Property="Value" Path="ProductID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Description" />
+                            <PropertyValue Property="Value" Path="ProductDescription" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product Category" />
+                            <PropertyValue Property="Value" Path="ProductCategory" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="List Price" />
+                            <PropertyValue Property="Value" Path="ListPrice" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Quantity" />
+                           
+                           <PropertyValue Property="Value">
+                               <Apply Function="odata.concat">
+                                    <Path>Quantity</Path>
+                                    <Path>QuantityUnitofMeasure</Path>
+                              </Apply>
+                          </PropertyValue>
+                   
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.OpportunityCompetitors">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="OpportunityCompetitorContacts" />
+                            <PropertyValue Property="Value" Path="OpportunityCompetitorContacts/Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="City" />
+                            <PropertyValue Property="Value" Path="City" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Main" />
+                            <PropertyValue Property="Value" Path="Main" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.OpportunitySalesTeam">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.OpportunityContacts">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Function" />
+                            <PropertyValue Property="Value" Path="Function" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Department" />
+                            <PropertyValue Property="Value" Path="Department" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Mobile" />
+                            <PropertyValue Property="Value" Path="Mobile" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Primary Contact" />
+                            <PropertyValue Property="Value" Path="PrimaryContactIndicator" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.OpportunityInvolvedParties">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="RoleCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Address" />
+                            <PropertyValue Property="Value" Path="Address" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="PrimaryContactName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="PrimaryContactEmail" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="PrimaryContactPhone" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Lead">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Lead" />
+                        <PropertyValue Property="TypeNamePlural" String="Leads" />
+                        <!--<PropertyValue Property="Title">-->
+                            <!--<Record>-->
+                                <!--<PropertyValue Property="Value" Path="Name" />-->
+                            <!--</Record>-->
+                        <!--</PropertyValue>-->
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Lead ID" />
+                            <PropertyValue Property="Value" Path="ID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Contact Name" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Qualification Level" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="QualificationLevel" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Priority" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Priority" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Category" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Source" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Source" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created On" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="CreatedOn" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Start Date" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="StartDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="End Date" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="EndDate" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="House Number" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="HouseNumber" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Street" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Street" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Postal Code" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="PostalCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="City" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="City" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="State" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="State" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Country" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="Country" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Phone" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Mobile" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Email" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Lead ID" />
+                            <PropertyValue Property="Value" Path="ID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Qualification Level" />
+                            <PropertyValue Property="Value" Path="QualificationLevel" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created On" />
+                            <PropertyValue Property="Value" Path="CreatedOn" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Products" />
+                            <PropertyValue Property="Target" AnnotationPath="LeadItem/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Involved Parties" />
+                            <PropertyValue Property="Target" AnnotationPath="LeadInvolvedParties/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Sales &amp; Marketing Team" />
+                            <PropertyValue Property="Target" AnnotationPath="LeadSalesAndMarketingTeam/@UI.LineItem" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.LeadItem">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product ID" />
+                            <PropertyValue Property="Value" Path="ProductID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Product" />
+                            <PropertyValue Property="Value" Path="ProductDescription" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Quantity" />
+                            <PropertyValue Property="Value" Path="Quantity" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.LeadContact">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Mobile" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.LeadInvolvedParties">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Address" />
+                            <PropertyValue Property="Value" Path="AddressHostUUID" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Primary Contact" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Name" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Email" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="LeadContact" />
+                            <PropertyValue Property="Value" Path="LeadContact/Phone" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.LeadSalesAndMarketingTeam">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.PartnerContact">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Partner Contact" />
+                        <PropertyValue Property="TypeNamePlural" String="Partner Contacts" />
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Value" Path="Name" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Title" />
+                            <PropertyValue Property="Value" Path="Title" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Academic Title" />
+                            <PropertyValue Property="Value" Path="AcademicTitle" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="First Name" />
+                            <PropertyValue Property="Value" Path="FirstName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Middle Name" />
+                            <PropertyValue Property="Value" Path="MiddleName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Last Name" />
+                            <PropertyValue Property="Value" Path="LastName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Language" />
+                            <PropertyValue Property="Value" Path="Language" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Gender" />
+                            <PropertyValue Property="Value" Path="Gender" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Phone" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Mobile" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Mobile" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Fax" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Fax" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Email" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Country" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Country" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="House Number" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/HouseName" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Street" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/Street" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="City" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/City" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="State" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/State" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Postal Code" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/PostalCode" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Building" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/PostalCode" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Room" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/PostalCode" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Floor" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="PartnerContactAddress" />
+                            <PropertyValue Property="Value" Path="PartnerContactAddress/PostalCode" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Appointments">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Appointment" />
+                        <PropertyValue Property="TypeNamePlural" String="Appointments" />
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Value" Path="Subject" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="DocumentType" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="SubjectName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Location" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="AppointmentStartDateTime" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="AppointmentEndDateTime" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Priority" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="SubjectName" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="AppointmentStartDateTime" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="AppointmentEndDateTime" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Involved Parties" />
+                            <PropertyValue Property="Target" AnnotationPath="AppointmentInvolvedParties/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" AnnotationPath="AppointmentNotes/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" AnnotationPath="AppointmentAttachments/@UI.LineItem" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.AppointmentInvolvedParties">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Address" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="AppointmentAddress" />
+                            <PropertyValue Property="Value" Path="AppointmentAddress/Address" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.AppointmentNotes">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Text" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.AppointmentAttachments">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Title" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Type Code" />
+                            <PropertyValue Property="Value" Path="TypeCode" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.Task">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="Title">
+                            <Record>
+                                <PropertyValue Property="Value" Path="Subject" />
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Subject" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="TaskDateTime" />
+                            <PropertyValue Property="Value" Path="TaskStartDateTime" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="TaskDateTime" />
+                            <PropertyValue Property="Value" Path="TaskEndDateTime" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Priority" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Subject" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Account" />
+                            <PropertyValue Property="Value" Path="Account" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Priority" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Category" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="TaskDateTime" />
+                            <PropertyValue Property="Value" Path="TaskDateTime/StartDateTime" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="TaskDateTime" />
+                            <PropertyValue Property="Value" Path="TaskDateTime/EndDateTime" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="Involved Parties" />
+                            <PropertyValue Property="Target" AnnotationPath="TaskInvolvedParties/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" AnnotationPath="TaskAttachments/@UI.LineItem" />
+                        </Record>
+                        <Record Type="UI.RefenceFacet">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Target" AnnotationPath="TaskTexts/@UI.LineItem" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.TaskInvolvedParties">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Name" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Role" />
+                            <PropertyValue Property="Value" Path="Role" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                        <Record Type="UI.DataFieldWithNavigationPath">
+                            <PropertyValue Property="Label" String="Address" />
+                            <PropertyValue Property="Target" NavigationPropertyPath="TaskAddress" />
+                            <PropertyValue Property="Value" Path="TaskAddress/Address" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.TaskAttachments">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Title" />
+                            <PropertyValue Property="Value" Path="Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="TypeCode" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Phone" />
+                            <PropertyValue Property="Value" Path="Phone" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="E-Mail" />
+                            <PropertyValue Property="Value" Path="Email" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CHP.TaskTexts">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="" />
+                            <PropertyValue Property="Value" Path="Text" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

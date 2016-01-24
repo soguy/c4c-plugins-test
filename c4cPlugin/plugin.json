@@ -1,0 +1,282 @@
+{
+    "name": "sap.hcp.c4c.plugin",
+    "description": "SAP Hana Cloud Portal widget plugin",
+    "i18n": "sap.hcp.c4c.plugin/i18n/i18n",
+    "requires": {
+        "services": [
+            "wizard",
+            "template",
+            "catalogstep",
+            "pluginmanagement",
+            "destination",
+            
+            "usernotification",
+			"log",
+			"command",
+			"commandGroup",
+			"selection",
+			"document",
+			"generation"
+        ]
+    },
+    "provides": {
+        "services": {
+            "tableSettingsStep": {
+                "implements": "sap.watt.common.service.ui.WizardStep",
+                "module": "sap.hcp.c4c.plugin/service/TableSettingsStepFeatureStep"
+            },
+            "detailspagestep": {
+                "implements": "sap.watt.common.service.ui.WizardFinishStep",
+                "module": "sap.hcp.c4c.plugin/service/DetailsPageFeatureStep"
+            },
+            "selectBOStep": {
+                "implements": "sap.watt.common.service.ui.WizardStep",
+                "module": "sap.hcp.c4c.plugin/service/SelectBOFeatureStep"
+            },
+             "createStep": {
+                "implements": "sap.watt.common.service.ui.WizardFinishStep",
+                "module": "sap.hcp.c4c.plugin/service/CreateStep"
+            },
+             "tableCustomization": {
+                "implements": "sap.watt.common.service.ui.WizardFinishStep",
+                "module": "sap.hcp.c4c.plugin/service/TableCustomizationFeatureStep"
+            },
+             "createTranslationsStep": {
+                "implements": "sap.watt.common.service.ui.WizardFinishStep",
+                "module": "sap.hcp.c4c.plugin/service/createTranslationsFeatureStep"
+            },
+             "massCreatorStep": {
+                "implements": "sap.watt.common.service.ui.WizardStep",
+                "module": "sap.hcp.c4c.plugin/service/MassCreatorFeatureStep"
+            },
+            "massContentCreatorStep": {
+                "implements": "sap.watt.common.service.ui.WizardStep",
+                "module": "sap.hcp.c4c.plugin/service/MassContentCreatorFeatureStep"
+            },
+            "massContentFinishStep": {
+                "implements": "sap.watt.common.service.ui.WizardFinishStep",
+                "module": "sap.hcp.c4c.plugin/service/MassContentFinishFeatureStep"
+            },
+            "regenerateService" : {
+				"implements": "c4cPlugin.service.RegenerateService",
+				"module": "sap.hcp.c4c.plugin/service/RegenerateService"
+			}
+            
+        },
+        "interfaces": {
+            "c4cPlugin.service.RegenerateService": "sap.hcp.c4c.plugin/service/RegenerateService"
+        }
+    },
+    "configures": {
+        "services": {
+             "wizard:styles":[
+               {
+                   "uri" : "sap.hcp.c4c.plugin/css/tableCustomizationStep.css"
+               },
+               {
+                   "uri" : "sap.hcp.c4c.plugin/css/massContentCreatorFeatureStep.css"
+               }
+            ],
+            "template:templates": [
+                {
+                    "id": "c4cPlugin.starterTableTemplate",
+                    "template": "sap.hcp.c4c.plugin/starterTableTemplate/StarterTableTemplate",
+                    "name": "{i18n>Config_template_starterwidgettemplate_name}",
+                    "description": "{i18n>Config_template_starterwidgettemplate_desc}",
+                    "path": "c4cPlugin/starterTableTemplate",
+                    "fileName": "resources.zip",
+                    
+                    "icon": "sap-icon://grid",
+                    "previewImage" : "image/preview.png",	
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                     "requiredTemplates" :[
+                        "c4cPlugin.sharedTemplate"
+                    ],
+                    "wizardSteps": [
+                        "selectBOStep",
+                        "tableCustomization"
+                    ],
+                    "templateType": "component",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                },
+                {
+                    "id": "c4cPlugin.starterDetailsPage",
+                    "template": "sap.hcp.c4c.plugin/starterDetailsPage/StarterDetailsPage",
+                    "name": "{i18n>Config_template_starterdetailspage_name}",
+                    "description": "{i18n>Config_template_starterdetailspage_desc}",
+                    "path": "c4cPlugin/starterDetailsPage",
+                    "fileName": "resources.zip",
+                    
+                    "icon": "sap-icon://form",
+                    "previewImage" : "image/preview.png",	
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "requiredTemplates" :[
+                        "c4cPlugin.sharedTemplate"
+                    ],
+                     "wizardSteps": [
+                        "selectBOStep",
+                        "detailspagestep"
+                    ],
+                    "templateType": "component",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                },
+                {
+                    "id": "c4cPlugin.starterCreateTemplate",
+                    "template": "sap.hcp.c4c.plugin/starterCreateTemplate/StarterCreateTemplate",
+                    "name": "{i18n>c4c_create_template_name}",
+                    "description": "{i18n>c4c_create_template_desc}",
+                    "path": "c4cPlugin/starterCreateTemplate",
+                    "fileName": "resources.zip",
+                    
+
+                    "icon": "sap-icon://it-host",
+                    "previewImage" : "image/preview.png",
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "requiredTemplates" :[
+                        "c4cPlugin.sharedTemplate"
+                    ],
+                    "wizardSteps": [
+                        "selectBOStep",
+                        "createStep"
+
+                    ],
+                    "templateType": "component",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                },
+                {
+                    "id": "c4cPlugin.starterTranslationTemplate",
+                    "template": "sap.hcp.c4c.plugin/starterTranslationTemplate/StarterTranslationTemplate",
+                    "name": "{i18n>c4c_translation_template_name}",
+                    "description": "{i18n>c4c_translation_template_name}",
+                    "path": "c4cPlugin/starterTranslationTemplate",
+                    "fileName": "resources.zip",
+                    
+
+                    "icon": "sap-icon://discussion",
+                    "previewImage" : "image/preview.png",
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "wizardSteps": [
+                        "createTranslationsStep"
+                    ],
+                    "templateType": "nothing",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                },
+                {
+                    "id": "c4cPlugin.sharedTemplate",
+                    "template": "sap.hcp.c4c.plugin/sharedTemplate/sharedTemplate",
+                    "path": "c4cPlugin/sharedTemplate",
+                    "fileName": "resources.zip",
+                    "icon": "sap-icon://it-host",
+                    "internalOnly": true,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "version": "1.0.0",
+                    "requiresNeoApp": false,
+                    "templateType": "nothing"
+                },
+                 {
+                    "id": "c4cPlugin.starterPCMSolutionTemplate",
+                    "template": "sap.hcp.c4c.plugin/starterPCMSolutionTemplate/StarterPCMSolutionTemplate",
+                    "name": "{i18n>c4c_solution_project_template_name}",
+                    "description": "{i18n>c4c_solution_project_template_desc}",
+                    "path": "c4cPlugin/starterPCMSolutionTemplate",
+                    "fileName": "resources.zip",
+                    
+
+                    "icon": "sap-icon://family-protection",
+                    "previewImage" : "image/preview.png",
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "requiredTemplates" :[
+                        "c4cPlugin.starterTableTemplate",
+                        "c4cPlugin.starterCreateTemplate",
+                        "c4cPlugin.starterDetailsPage",
+                        "c4cPlugin.sharedTemplate",
+                        "c4cPlugin.starterTranslationTemplate"
+                    ],
+                    "wizardSteps": [
+                        "selectBOStep",
+                        "massContentCreatorStep",
+                        "massContentFinishStep"
+                    ],
+                    "templateType": "project",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                },
+                {
+                    "id": "c4cPlugin.starterPCMUpdateTemplate",
+                    "template": "sap.hcp.c4c.plugin/starterPCMUpdateTemplate/StarterPCMUpdateTemplate",
+                    "name": "{i18n>c4c_solution_component_template_name}",
+                    "description": "{i18n>c4c_solution_component_template_desc}",
+                    "path": "c4cPlugin/starterPCMUpdateTemplate",
+                    "fileName": "resources.zip",
+                    
+
+                    "icon": "sap-icon://family-protection",
+                    "previewImage" : "image/preview.png",
+                    "internalOnly": false,
+                    "category": "hcpsap_hana_cloud_c4c_widgets",
+                    "requiredTemplates" :[
+                        "c4cPlugin.starterTableTemplate",
+                        "c4cPlugin.starterCreateTemplate",
+                        "c4cPlugin.starterDetailsPage",
+                        "c4cPlugin.sharedTemplate",
+                        "c4cPlugin.starterTranslationTemplate"
+                    ],
+                    "wizardSteps": [
+                        "selectBOStep",
+                        "massContentCreatorStep",
+                        "massContentFinishStep"
+                    ],
+                    "templateType": "component",
+                    "version": "1.0.0",
+                    "requiresNeoApp": true
+                }
+            ],
+            "template:categories": [
+                {
+                    "id": "hcpsap_hana_cloud_c4c_widgets",
+                    "name": "{i18n>Config_category_hcp_sap_hana_cloud_c4c_widgets_name}",
+                    "description": "{i18n>Config_category_hcp_sap_hana_cloud_c4c_widgets_name}"
+                }
+            ],
+            "command:commands" : [
+				{
+					"id" : "c4cPlugin.regenerate",
+					"label": "{i18n>command_regenerate}",
+					"service" : "sap.hcp.c4c.plugin/command/Regenerate",
+					"keyBinding": "ctrl+g"
+				}
+			],
+			
+			"commandGroup:groups": [
+				{ 
+					"id" : "tools.regenerate"
+				}		
+			],
+
+			"commandGroup:items": [
+				{
+					"parent" : "tools",
+					"type": "inline", 
+					"group": "tools.regenerate",
+					"prio": 10
+				},
+				{
+					"parent" : "tools.regenerate",
+					"type": "action", 
+					"command": "c4cPlugin.regenerate",
+					"prio": 10
+				}
+			]
+        }
+    },
+    "subscribes": {}
+}

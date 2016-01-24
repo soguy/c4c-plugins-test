@@ -1,0 +1,140 @@
+<core:View xmlns:core="sap.ui.core"
+           xmlns="sap.m"
+           xmlns:layout="sap.ui.layout"
+           controllerName="c4c.details-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local.view.details"
+           xmlns:f="sap.ui.layout.form"
+           height="100%">
+
+<Page id="idPage" title="{{#getI18n currentBO.titleSingularName}}{{/getI18n}}" class="sapUiFioriObjectPage" showNavButton="true" navButtonPress="handleNavButtonPress" >
+    <content>
+        <Toolbar class="detailsToolbar">
+            {{#addIcon currentBO.boId}}{{/addIcon}}
+            <Label text="{{#addRecordName currentBO.identification.boIdentification currentBO.boId}}{{/addRecordName}}" tooltip="{{#addRecordName currentBO.identification.boIdentification currentBO.boId}}{{/addRecordName}}" class="detailsToolbarLabel"/>
+            <ToolbarSpacer/>
+        </Toolbar>
+        <IconTabBar select="handleIconTabBarSelect" {{#ifCond currentBO.facets.length 1}} class="one-facet" {{/ifCond}}>
+            <items>
+              {{#each currentBO.facets}}
+                <IconTabFilter text="{{#getI18n label}}{{/getI18n}}" key="{{boAnnotation}}">
+                {{#if childTable}}
+                    <Toolbar design="Transparent" height="3rem">
+                        <Text text="{{#getI18n label}}{{/getI18n}} ({tableCountModel>/{{boAnnotation}}Count})" class="sapMH4FontSize"/>
+                        <ToolbarSpacer/>
+                        {{#if isDeletable}}
+                        <Button class="deleteBtn" icon="sap-icon://sys-cancel" press="enableDelete" tooltip="{i18n_Static>starterDetailsPage.details.facetAdd.fragment.edit.btn}">
+                            <customData>
+                                <core:CustomData key="model" value="ObjectPageModel" />
+                                <core:CustomData key="table" value="{{boAnnotation}}" />
+                            </customData>
+                        </Button>
+                        {{/if}}
+                        {{#if isUpdatable}}
+                        <Button class="updateBtn" icon="sap-icon://edit" press="enableEdit" tooltip="{i18n_Static>starterDetailsPage.details.facetUpdate.fragment.update.btn}">
+                            <customData>
+                                <core:CustomData key="model" value="ObjectPageModel" />
+                                <core:CustomData key="table" value="{{boAnnotation}}" />
+                            </customData>
+                        </Button>
+                        {{/if}}
+                        {{#if isCreatable}}
+                        <Button class="addBtn" icon="sap-icon://add" press="enableAdd" tooltip="{i18n_Static>starterDetailsPage.details.facetAdd.fragment.add.btn}">
+                            <customData>
+                                <core:CustomData key="model" value="ObjectPageModel" />
+                                <core:CustomData key="table" value="{{boAnnotation}}" />
+                            </customData>
+                        </Button>
+                        {{/if}}
+                    </Toolbar>
+                    <Table
+                       class="{{boAnnotation}} table-details-page"
+                       delete="handleDelete"
+                       growing="true"
+                       mode="SingleSelectMaster"
+                       inset="false"
+                       items="{path: 'ObjectPageModel>/{{boAnnotation}}'}">
+                      
+                        <columns>
+                            {{#eachDetailsColumns childTable.columns}}
+                             {{body}}
+                            {{/eachDetailsColumns}}
+                            {{#if isUpdatable}}
+                               <Column width="30px" class="editableFacetColumn" visible="false">
+                                </Column>
+                            {{/if}}
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                {{#eachFacetColumns childTable.columns}}
+                                    {{body}}
+                                {{/eachFacetColumns}}
+                                {{#if isUpdatable}}
+                                <cells>
+                                    <core:Icon src="sap-icon://edit" press="onEditFacetItem" ></core:Icon>
+                                </cells>
+                                {{/if}}
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                {{else}}
+                    {{#if childForm}}
+                        <Toolbar design="Transparent" height="3rem">
+                            <Text text="{{#getI18n label}}{{/getI18n}}" class="sapMH4FontSize"/>
+                            <ToolbarSpacer/>
+                            {{#if isFacetEditable}}
+                                <Button class="edit-overview" icon="sap-icon://edit" press="handleOverviewEdit" tooltip="{i18n_Static>starterDetailsPage.details.view.Edit.btn}">
+                                    <customData>
+                                        <core:CustomData key="model" value="ObjectPageModel" />
+                                        <core:CustomData key="table" value="{{boAnnotation}}" />
+                                    </customData>
+                                </Button>
+                        	    <Button class="confirmBtn" press="handleConfirmEdit" text="{i18n_Static>starterDetailsPage.details.view.Save.btn}" visible="false"></Button>
+                        	    <Button class="cancelBtn" press="handleCancelEdit" text="{i18n_Static>starterDetailsPage.details.view.Cancel.btn}" visible="false"></Button>
+                    	    {{/if}}
+                        </Toolbar>
+                        <layout:VerticalLayout class="marginVerticalContent {{boAnnotation}}" width="100%">
+                            <layout:content>
+                                <core:Fragment fragmentName="c4c.details-{{#toLowerCase boParentCollection}}{{/toLowerCase}}.local.view.detailsDisplay" type="XML" />
+                            </layout:content>
+                        </layout:VerticalLayout>
+                    {{/if}}
+                    
+                    
+                    {{#if childInteractionLog}}
+                        <Toolbar design="Transparent" height="3rem">
+                            <Text text="{{#getI18n label}}{{/getI18n}}" class="sapMH4FontSize"/>
+                            <ToolbarSpacer/>
+                        </Toolbar>
+                        <layout:VerticalLayout class="marginVerticalContent {{boAnnotation}}" width="100%">
+                            <layout:content>
+                                <core:Fragment fragmentName="c4c.details-{{#toLowerCase boParentCollection}}{{/toLowerCase}}.local.view.interactionLog" type="XML" />
+                            </layout:content>
+                        </layout:VerticalLayout>
+                    {{/if}}
+                    
+                    
+                    
+                {{/if}}
+                
+                </IconTabFilter>
+              {{/each}}
+            </items>
+          </IconTabBar>
+          <BusyIndicator visible="{ObjectPageState>/showBusyIndicator}" class="details-bi"></BusyIndicator>
+    </content>
+    <footer>
+        	<Toolbar>
+        	     <content>
+                	<ToolbarSpacer></ToolbarSpacer>
+                	{{#if currentBO.boActions}}
+                    	<Button icon="sap-icon://action" press="openActions" tooltip="{i18n_Static>starterDetailsPage.details.view.setAs.tooltip}">
+                    	     <customData>
+                                    <core:CustomData key="model" value="ObjectPageModel" />
+                                    <core:CustomData key="table" value="{{currentBO.boId}}" />
+                            </customData>
+                    	</Button>
+                	{{/if}}
+            	 </content>
+        	</Toolbar>
+	</footer>
+</Page>
+</core:View>

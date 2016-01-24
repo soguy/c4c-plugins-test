@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+	<edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+		<Schema Namespace="pcmportal" Alias="PCM" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="Account">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AccountID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="AccountName" Type="Edm.String" Nullable="false" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<NavigationProperty Name="AccountAddress" Relationship="pcmportal.Account_AccountAddress" FromRole="Account" ToRole="AccountAddress"/>
+			</EntityType>
+			<EntityType Name="AccountAddress">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PostalCode" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="true" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="State" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="true" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Street" Type="Edm.String" Nullable="true" MaxLength="360" FixedLength="true" Precision="360" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Website" Type="Edm.String" Nullable="true" MaxLength="1280" FixedLength="true" Precision="1280" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="AppointmentAddress">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="AppointmentAttachments">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Binary" Type="Edm.Binary" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="CategoryCode" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="true" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="LinkWebURI" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="MimeType" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="AppointmentInvolvedParties">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AddressSnapshotUUID" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="AppointmentNotes">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="LanguageCode" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Text" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="Appointments">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Account" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AccountID" Type="Edm.String" Nullable="false" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ActivitytypeCode" Type="Edm.String" Nullable="true" MaxLength="15" FixedLength="true" Precision="15" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="AppointmentEndDateTime" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="AppointmentStartDateTime" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Category" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="DocumentType" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Location" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Priority" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="SubjectName" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<NavigationProperty Name="AppointmentAttachments" Relationship="pcmportal.Appointments_AppointmentAttachments" FromRole="Appointments" ToRole="AppointmentAttachments"/>
+				<NavigationProperty Name="AppointmentInvolvedParties" Relationship="pcmportal.Appointments_AppointmentInvolvedParties" FromRole="Appointments" ToRole="AppointmentInvolvedParties"/>
+				<NavigationProperty Name="AppointmentNotes" Relationship="pcmportal.Appointments_AppointmentNotes" FromRole="Appointments" ToRole="AppointmentNotes"/>
+			</EntityType>
+			<EntityType Name="Fund">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ApprovedFunds" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ApprovedFundsCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AtRiskToExpire" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AtRiskToExpireCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimsInDraftCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimsInProcessCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimsSettled" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimsSettledCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimstInDraft" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ClaimstInProcess" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="FundID" Type="Edm.String" Nullable="true" MaxLength="35" FixedLength="true" Precision="35" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="FundType" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="FundsExpired" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="FundsExpiredCurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="InitialFundAmount" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="InitialFundAmountcurrencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartnerUUID" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="Lead">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Account" Type="Edm.String" Nullable="false" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AccountID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Category" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ChangedOn" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ContactFirstName" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="false" Precision="240" Scale="0"/>
+				<Property Name="ContactLastName" Type="Edm.String" Nullable="false" MaxLength="240" FixedLength="false" Precision="240" Scale="0"/>
+				<Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CreatedOn" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="EndDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="HouseNumber" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="true" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ID" Type="Edm.String" Nullable="true" MaxLength="35" FixedLength="true" Precision="35" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="MainContactID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="MarketingLead" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="OwnerID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="OwnerName" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="false" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PostalCode" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="true" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Priority" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="QualificationLevel" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Source" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="StartDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="State" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="true" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Street" Type="Edm.String" Nullable="true" MaxLength="360" FixedLength="true" Precision="360" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="LeadAttachments" Relationship="pcmportal.Lead_LeadAttachments" FromRole="Lead" ToRole="LeadAttachments"/>
+				<NavigationProperty Name="LeadContact" Relationship="pcmportal.Lead_LeadContact" FromRole="Lead" ToRole="LeadContact"/>
+				<NavigationProperty Name="LeadInvolvedParties" Relationship="pcmportal.Lead_LeadInvolvedParties" FromRole="Lead" ToRole="LeadInvolvedParties"/>
+				<NavigationProperty Name="LeadItem" Relationship="pcmportal.Lead_LeadItem" FromRole="Lead" ToRole="LeadItem"/>
+				<NavigationProperty Name="LeadSalesAndMarketingTeam" Relationship="pcmportal.Lead_LeadSalesAndMarketingTeam" FromRole="Lead" ToRole="LeadSalesAndMarketingTeam"/>
+			</EntityType>
+			<EntityType Name="LeadAttachments">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Binary" Type="Edm.Binary" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="CategoryCode" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="true" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="LinkWebURI" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="MimeType" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="LeadContact">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Department" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0"/>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Function" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0"/>
+				<Property Name="Mobile" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartyID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PrimaryContact" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<NavigationProperty Name="Lead" Relationship="pcmportal.Lead_LeadContact" FromRole="LeadContact" ToRole="Lead"/>
+			</EntityType>
+			<EntityType Name="LeadInvolvedParties">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AddressHostUUID" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Lead" Relationship="pcmportal.Lead_LeadInvolvedParties" FromRole="LeadInvolvedParties" ToRole="Lead"/>
+			</EntityType>
+			<EntityType Name="LeadItem">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductCategory" Type="Edm.String" Nullable="true" MaxLength="20" FixedLength="true" Precision="20" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ProductDescription" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ProductID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Quantity" Type="Edm.Decimal" Nullable="true" MaxLength="31" FixedLength="true" Precision="31" Scale="14" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="QuantityUnitofMeasure" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Lead" Relationship="pcmportal.Lead_LeadItem" FromRole="LeadItem" ToRole="Lead"/>
+			</EntityType>
+			<EntityType Name="LeadSalesAndMarketingTeam">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Lead" Relationship="pcmportal.Lead_LeadSalesAndMarketingTeam" FromRole="LeadSalesAndMarketingTeam" ToRole="Lead"/>
+			</EntityType>
+			<EntityType Name="Loyalty">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="LoyaltyProgram" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="MembershipID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartnerUUID" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="TotalPoints" Type="Edm.Decimal" Nullable="true" MaxLength="15" FixedLength="true" Precision="15" Scale="2" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="Opportunity">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AccountID" Type="Edm.String" Nullable="false" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AccountName" Type="pcmportal.ENCRYPTED_LONG_Name" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ApprovalStatus" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Category" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CloseDate" Type="Edm.String" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ExpectedValue" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ExpectedValueCurrencyCode" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="GroupCode" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ID" Type="Edm.String" Nullable="true" MaxLength="35" FixedLength="true" Precision="35" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="OpportunityName" Type="Edm.String" Nullable="false" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="OwnerID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="OwnerName" Type="pcmportal.LONG_Name" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PrimaryContactName" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Priority" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Probability" Type="Edm.Decimal" Nullable="true" MaxLength="16" FixedLength="true" Precision="16" Scale="6" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Progress" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="SalesCycle" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="SalesPhase" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="StartDate" Type="Edm.String" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TotalNegotiatedValueCurrencyCode" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TotalNeotiatedValue" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="15" FixedLength="true" Precision="15" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<NavigationProperty Name="OpportunityAttachments" Relationship="pcmportal.Opportunity_OpportunityAttachments" FromRole="Opportunity" ToRole="OpportunityAttachments"/>
+				<NavigationProperty Name="OpportunityCompetitors" Relationship="pcmportal.Opportunity_OpportunityCompetitors" FromRole="Opportunity" ToRole="OpportunityCompetitors"/>
+				<NavigationProperty Name="OpportunityContact" Relationship="pcmportal.Opportunity_OpportunityContact" FromRole="Opportunity" ToRole="OpportunityContact"/>
+				<NavigationProperty Name="OpportunityInvolvedParties" Relationship="pcmportal.Opportunity_OpportunityInvolvedParties" FromRole="Opportunity" ToRole="OpportunityInvolvedParties"/>
+				<NavigationProperty Name="OpportunityItem" Relationship="pcmportal.Opportunity_OpportunityItem" FromRole="Opportunity" ToRole="OpportunityItem"/>
+				<NavigationProperty Name="OpportunityNotes" Relationship="pcmportal.Opportunity_OpportunityNotes" FromRole="Opportunity" ToRole="OpportunityNotes"/>
+				<NavigationProperty Name="OpportunitySalesTeam" Relationship="pcmportal.Opportunity_OpportunitySalesTeam" FromRole="Opportunity" ToRole="OpportunitySalesTeam"/>
+			</EntityType>
+			<EntityType Name="OpportunityAttachments">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Binary" Type="Edm.Binary" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="CategoryCode" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="true" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="LinkWebURI" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="MimeType" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="OpportunityCompetitors">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ContactName" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Main" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Website" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Opportunity" Relationship="pcmportal.Opportunity_OpportunityCompetitors" FromRole="OpportunityCompetitors" ToRole="Opportunity"/>
+			</EntityType>
+			<EntityType Name="OpportunityContact">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Mobile" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartyID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PrimaryContactIndicator" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Opportunity" Relationship="pcmportal.Opportunity_OpportunityContact" FromRole="OpportunityContact" ToRole="Opportunity"/>
+			</EntityType>
+			<EntityType Name="OpportunityInvolvedParties">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="pcmportal.LONG_Name" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PrimaryContactEmail" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PrimaryContactName" Type="pcmportal.LONG_Name" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PrimaryContactPhone" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="RoleCode" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Opportunity" Relationship="pcmportal.Opportunity_OpportunityInvolvedParties" FromRole="OpportunityInvolvedParties" ToRole="Opportunity"/>
+			</EntityType>
+			<EntityType Name="OpportunityItem">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ItemProduct_ObjectID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ListPrice" Type="Edm.Decimal" Nullable="false" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ListPriceCurrencyCode" Type="Edm.String" Nullable="false" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductCategory" Type="Edm.String" Nullable="true" MaxLength="20" FixedLength="true" Precision="20" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ProductDescription" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ProductID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Quantity" Type="Edm.Decimal" Nullable="true" MaxLength="31" FixedLength="true" Precision="31" Scale="14" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="QuantityUnitofMeasure" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Opportunity" Relationship="pcmportal.Opportunity_OpportunityItem" FromRole="OpportunityItem" ToRole="Opportunity"/>
+			</EntityType>
+			<EntityType Name="OpportunityNotes">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="LanguageCode" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Text" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="OpportunitySalesTeam">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="pcmportal.LONG_Name" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Opportunity" Relationship="pcmportal.Opportunity_OpportunitySalesTeam" FromRole="OpportunitySalesTeam" ToRole="Opportunity"/>
+			</EntityType>
+			<EntityType Name="Partner">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ABCClassification" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AdditionalName" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CategoryCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ChangedBy" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ChangedOn" Type="Edm.DateTimeOffset" Nullable="false" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ContactPermission" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CreatedBy" Type="Edm.Guid" Nullable="true" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="CreationOn" Type="Edm.DateTimeOffset" Nullable="false" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="DUNS" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Industry" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Level" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="LifeCycleStatusCode" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartnerID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="true" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="PartnerAddress" Relationship="pcmportal.Partner_PartnerAddress" FromRole="Partner" ToRole="PartnerAddress"/>
+				<NavigationProperty Name="PartnerContact" Relationship="pcmportal.Partner_PartnerContact" FromRole="Partner" ToRole="PartnerContact"/>
+				<NavigationProperty Name="PartnerFund" Relationship="pcmportal.Partner_Fund" FromRole="Partner" ToRole="Fund"/>
+				<NavigationProperty Name="PartnerLoyalty" Relationship="pcmportal.Partner_Loyalty" FromRole="Partner" ToRole="Loyalty"/>
+				<NavigationProperty Name="PartnerProgram" Relationship="pcmportal.Partner_PartnerProgram" FromRole="Partner" ToRole="PartnerProgram"/>
+			</EntityType>
+			<EntityType Name="PartnerAddress">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Fax" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="HouseNumber" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PostalCode" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="State" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="true" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Street" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Website" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="PartnerContact">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AcademicTitle" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Department" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0"/>
+				<Property Name="EmployeeID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0"/>
+				<Property Name="FirstName" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Function" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0"/>
+				<Property Name="Gender" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="false" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="JobTitle" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="false" Precision="240" Scale="0"/>
+				<Property Name="Language" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="LastName" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="MiddleName" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="true" MaxLength="70" FixedLength="true" Precision="70" Scale="0"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="true" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Title" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="Partner" Relationship="pcmportal.PartnerContact_Partner" FromRole="PartnerContact" ToRole="Partner"/>
+				<NavigationProperty Name="PartnerContactAddress" Relationship="pcmportal.PartnerContact_PartnerContactAddress" FromRole="PartnerContact" ToRole="PartnerContactAddress"/>
+			</EntityType>
+			<EntityType Name="PartnerContactAddress">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Building" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="false" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="false" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="false" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="false" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Fax" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="false" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Floor" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="false" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="HouseNumber" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="false" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Mobile" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="false" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="false" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PostalCode" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="false" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Room" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="false" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="State" Type="Edm.String" Nullable="true" MaxLength="6" FixedLength="false" Precision="6" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Street" Type="Edm.String" Nullable="true" MaxLength="360" FixedLength="false" Precision="360" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="PartnerOnboardingIndustry">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="DefaultIndicator" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="IndustrialSectorCode" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="IndustryClassificationSystemCode" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="PartnerOnboardingRequest">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AddressIndicator" Type="Edm.Boolean" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ApplicationID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="City" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CompanyEmail" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CompanyName" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CompanyPhone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="CompanyWebAddress" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Country" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="DUNSNumber" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="NumberOfCustomers" Type="Edm.Int32" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="NumberOfEmployees" Type="Edm.Int32" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartnerContactAddress" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactCity" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactCountry" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactEmail" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactFirstName" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactJobTitle" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactLastName" Type="Edm.String" Nullable="true" MaxLength="240" FixedLength="true" Precision="240" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactPhone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactPostalCode" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="true" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactPreferredLanguage" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerContactSalutation" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerProgramCode" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerTypeCode" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PostalCode" Type="Edm.String" Nullable="true" MaxLength="100" FixedLength="true" Precision="100" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PrimaryCommunicationLanguage" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="VatRegistrationNumber" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="YearFounded" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="PartnerOnboardingIndustry" Relationship="pcmportal.PartnerOnboardingRequest_PartnerOnboardingIndustry" FromRole="PartnerOnboardingRequest" ToRole="PartnerOnboardingIndustry"/>
+				<NavigationProperty Name="PartnerOnboardingText" Relationship="pcmportal.PartnerOnboardingRequest_PartnerOnboardingText" FromRole="PartnerOnboardingRequest" ToRole="PartnerOnboardingText"/>
+			</EntityType>
+			<EntityType Name="PartnerOnboardingText">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="LanguageCode" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Text" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="PartnerProductDimension">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="DimensionStatus" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="EndDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductID" Type="Edm.String" Nullable="true" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="StartDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="PartnerProgram" Relationship="pcmportal.PartnerProgram_PartnerProductDimension" FromRole="PartnerProductDimension" ToRole="PartnerProgram"/>
+			</EntityType>
+			<EntityType Name="PartnerProgram">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="AgreementEndDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AgreementStartDate" Type="Edm.DateTime" Nullable="true" MaxLength="8" FixedLength="true" Precision="8" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="MembershipID" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="PartnerProgram" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="PartnerType" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<NavigationProperty Name="Partner" Relationship="pcmportal.Partner_PartnerProgram" FromRole="PartnerProgram" ToRole="Partner"/>
+				<NavigationProperty Name="PartnerProductDimension" Relationship="pcmportal.PartnerProgram_PartnerProductDimension" FromRole="PartnerProgram" ToRole="PartnerProductDimension"/>
+			</EntityType>
+			<EntityType Name="ProductCategory">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<NavigationProperty Name="ProductCategoryDescription" Relationship="pcmportal.ProductCategory_ProductCategoryDescription" FromRole="ProductCategory" ToRole="ProductCategoryDescription"/>
+				<NavigationProperty Name="Products" Relationship="pcmportal.Products_ProductCategory" FromRole="ProductCategory" ToRole="Products"/>
+			</EntityType>
+			<EntityType Name="ProductCategoryDescription">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductCategoryDescription" Type="Edm.String" Nullable="true" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ProductCategoryLanguage" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</EntityType>
+			<EntityType Name="ProductDescription">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ProductDescription" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ProductDescriptionLanguage" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<NavigationProperty Name="Products" Relationship="pcmportal.Products_ProductDescription" FromRole="ProductDescription" ToRole="Products"/>
+			</EntityType>
+			<EntityType Name="Products">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="ID" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="UnitOfMeasure" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<NavigationProperty Name="ProductCategory" Relationship="pcmportal.Products_ProductCategory" FromRole="Products" ToRole="ProductCategory"/>
+				<NavigationProperty Name="ProductDescription" Relationship="pcmportal.Products_ProductDescription" FromRole="Products" ToRole="ProductDescription"/>
+			</EntityType>
+			<EntityType Name="Task">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Account" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="AccountID" Type="Edm.String" Nullable="false" MaxLength="60" FixedLength="true" Precision="60" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ActivityTypeCode" Type="Edm.String" Nullable="true" MaxLength="15" FixedLength="true" Precision="15" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Category" Type="Edm.String" Nullable="true" MaxLength="4" FixedLength="true" Precision="4" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Priority" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Processor" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="Status" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Subject" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="TaskDueDateTime" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="TaskStartDateTime" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="true"/>
+				<NavigationProperty Name="TaskAttachments" Relationship="pcmportal.Task_TaskAttachments" FromRole="Task" ToRole="TaskAttachments"/>
+				<NavigationProperty Name="TaskInvolvedParties" Relationship="pcmportal.Task_TaskInvolvedParties" FromRole="Task" ToRole="TaskInvolvedParties"/>
+				<NavigationProperty Name="TaskNotes" Relationship="pcmportal.Task_TaskNotes" FromRole="Task" ToRole="TaskNotes"/>
+			</EntityType>
+			<EntityType Name="TaskAddress">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Address" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="TaskAttachments">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Binary" Type="Edm.Binary" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="CategoryCode" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="true" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="LinkWebURI" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="MimeType" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="false"/>
+				<Property Name="UUID" Type="Edm.Guid" Nullable="false" MaxLength="36" FixedLength="true" Precision="36" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</EntityType>
+			<EntityType Name="TaskInvolvedParties">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="Email" Type="Edm.String" Nullable="true" MaxLength="765" FixedLength="true" Precision="765" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Name" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Phone" Type="Edm.String" Nullable="true" MaxLength="350" FixedLength="true" Precision="350" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="Role" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<NavigationProperty Name="AppointmentAddress" Relationship="pcmportal.TaskInvolvedParties_AppointmentAddress" FromRole="TaskInvolvedParties" ToRole="AppointmentAddress"/>
+				<NavigationProperty Name="Task" Relationship="pcmportal.Task_TaskInvolvedParties" FromRole="TaskInvolvedParties" ToRole="Task"/>
+				<NavigationProperty Name="TaskAddress" Relationship="pcmportal.TaskInvolvedParties_TaskAddress" FromRole="TaskInvolvedParties" ToRole="TaskAddress"/>
+			</EntityType>
+			<EntityType Name="TaskNotes">
+				<Key>
+					<PropertyRef Name="ObjectID"/>
+				</Key>
+				<Property Name="LanguageCode" Type="Edm.String" Nullable="true" MaxLength="2" FixedLength="true" Precision="2" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="ObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="ParentObjectID" Type="Edm.String" Nullable="false" MaxLength="70" FixedLength="true" Precision="70" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="Text" Type="Edm.String" Nullable="true" FixedLength="false" Precision="0" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="TypeCode" Type="Edm.String" Nullable="true" MaxLength="5" FixedLength="true" Precision="5" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</EntityType>
+			<ComplexType Name="Amount">
+				<Property Name="currencyCode" Type="Edm.String" Nullable="true" MaxLength="3" FixedLength="true" Precision="3" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.Decimal" Nullable="true" MaxLength="28" FixedLength="true" Precision="28" Scale="6" sap:creatable="true" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="DateTime">
+				<Property Name="content" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="33" FixedLength="true" Precision="33" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="timeZoneCode" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="daylightSavingTimeIndicator" Type="Edm.Boolean" Nullable="false" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="false"/>
+			</ComplexType>
+			<ComplexType Name="ENCRYPTED_LONG_Name">
+				<Property Name="languageCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="480" FixedLength="true" Precision="480" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="EXTENDED_Name">
+				<Property Name="languageCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="255" FixedLength="true" Precision="255" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="IndustrialSectorCode">
+				<Property Name="listID" Type="Edm.String" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="listVersionID" Type="Edm.String" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="listAgencyID" Type="Edm.String" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="listAgencySchemeID" Type="Edm.String" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="listAgencySchemeAgencyID" Type="Edm.String" Nullable="false" FixedLength="false" Precision="0" Scale="0" sap:creatable="false" sap:updatable="false"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="LOCALNORMALISED_DateTime">
+				<Property Name="timeZoneCode" Type="Edm.String" Nullable="true" MaxLength="10" FixedLength="true" Precision="10" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.DateTimeOffset" Nullable="true" MaxLength="21" FixedLength="true" Precision="21" Scale="7" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="LONG_Name">
+				<Property Name="languageCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="true" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="true" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="MEDIUM_Description">
+				<Property Name="languageCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="80" FixedLength="true" Precision="80" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<ComplexType Name="SHORT_Description">
+				<Property Name="languageCode" Type="Edm.String" Nullable="true" MaxLength="1" FixedLength="true" Precision="1" Scale="0" sap:creatable="false" sap:updatable="true"/>
+				<Property Name="content" Type="Edm.String" Nullable="true" MaxLength="40" FixedLength="true" Precision="40" Scale="0" sap:creatable="false" sap:updatable="true"/>
+			</ComplexType>
+			<Association Name="Account_AccountAddress">
+				<End Type="pcmportal.Account" Multiplicity="1" Role="Account"/>
+				<End Type="pcmportal.AccountAddress" Multiplicity="1" Role="AccountAddress"/>
+			</Association>
+			<Association Name="Appointments_AppointmentAttachments">
+				<End Type="pcmportal.Appointments" Multiplicity="1" Role="Appointments"/>
+				<End Type="pcmportal.AppointmentAttachments" Multiplicity="*" Role="AppointmentAttachments"/>
+			</Association>
+			<Association Name="Appointments_AppointmentInvolvedParties">
+				<End Type="pcmportal.Appointments" Multiplicity="1" Role="Appointments"/>
+				<End Type="pcmportal.AppointmentInvolvedParties" Multiplicity="*" Role="AppointmentInvolvedParties"/>
+			</Association>
+			<Association Name="Appointments_AppointmentNotes">
+				<End Type="pcmportal.Appointments" Multiplicity="1" Role="Appointments"/>
+				<End Type="pcmportal.AppointmentNotes" Multiplicity="*" Role="AppointmentNotes"/>
+			</Association>
+			<Association Name="Lead_LeadAttachments">
+				<End Type="pcmportal.Lead" Multiplicity="1" Role="Lead"/>
+				<End Type="pcmportal.LeadAttachments" Multiplicity="*" Role="LeadAttachments"/>
+			</Association>
+			<Association Name="Lead_LeadContact">
+				<End Type="pcmportal.LeadContact" Multiplicity="*" Role="LeadContact"/>
+				<End Type="pcmportal.Lead" Multiplicity="1" Role="Lead"/>
+			</Association>
+			<Association Name="Lead_LeadInvolvedParties">
+				<End Type="pcmportal.LeadInvolvedParties" Multiplicity="*" Role="LeadInvolvedParties"/>
+				<End Type="pcmportal.Lead" Multiplicity="1" Role="Lead"/>
+			</Association>
+			<Association Name="Lead_LeadItem">
+				<End Type="pcmportal.LeadItem" Multiplicity="*" Role="LeadItem"/>
+				<End Type="pcmportal.Lead" Multiplicity="1" Role="Lead"/>
+			</Association>
+			<Association Name="Lead_LeadSalesAndMarketingTeam">
+				<End Type="pcmportal.LeadSalesAndMarketingTeam" Multiplicity="*" Role="LeadSalesAndMarketingTeam"/>
+				<End Type="pcmportal.Lead" Multiplicity="1" Role="Lead"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityAttachments">
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+				<End Type="pcmportal.OpportunityAttachments" Multiplicity="*" Role="OpportunityAttachments"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityCompetitors">
+				<End Type="pcmportal.OpportunityCompetitors" Multiplicity="*" Role="OpportunityCompetitors"/>
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityContact">
+				<End Type="pcmportal.OpportunityContact" Multiplicity="*" Role="OpportunityContact"/>
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityInvolvedParties">
+				<End Type="pcmportal.OpportunityInvolvedParties" Multiplicity="*" Role="OpportunityInvolvedParties"/>
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityItem">
+				<End Type="pcmportal.OpportunityItem" Multiplicity="*" Role="OpportunityItem"/>
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+			</Association>
+			<Association Name="Opportunity_OpportunityNotes">
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+				<End Type="pcmportal.OpportunityNotes" Multiplicity="*" Role="OpportunityNotes"/>
+			</Association>
+			<Association Name="Opportunity_OpportunitySalesTeam">
+				<End Type="pcmportal.OpportunitySalesTeam" Multiplicity="*" Role="OpportunitySalesTeam"/>
+				<End Type="pcmportal.Opportunity" Multiplicity="1" Role="Opportunity"/>
+			</Association>
+			<Association Name="PartnerContact_Partner">
+				<End Type="pcmportal.PartnerContact" Multiplicity="1" Role="PartnerContact"/>
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+			</Association>
+			<Association Name="PartnerContact_PartnerContactAddress">
+				<End Type="pcmportal.PartnerContact" Multiplicity="1" Role="PartnerContact"/>
+				<End Type="pcmportal.PartnerContactAddress" Multiplicity="1" Role="PartnerContactAddress"/>
+			</Association>
+			<Association Name="PartnerOnboardingRequest_PartnerOnboardingIndustry">
+				<End Type="pcmportal.PartnerOnboardingRequest" Multiplicity="1" Role="PartnerOnboardingRequest"/>
+				<End Type="pcmportal.PartnerOnboardingIndustry" Multiplicity="*" Role="PartnerOnboardingIndustry"/>
+			</Association>
+			<Association Name="PartnerOnboardingRequest_PartnerOnboardingText">
+				<End Type="pcmportal.PartnerOnboardingRequest" Multiplicity="1" Role="PartnerOnboardingRequest"/>
+				<End Type="pcmportal.PartnerOnboardingText" Multiplicity="*" Role="PartnerOnboardingText"/>
+			</Association>
+			<Association Name="PartnerProgram_PartnerProductDimension">
+				<End Type="pcmportal.PartnerProductDimension" Multiplicity="*" Role="PartnerProductDimension"/>
+				<End Type="pcmportal.PartnerProgram" Multiplicity="1" Role="PartnerProgram"/>
+			</Association>
+			<Association Name="Partner_Fund">
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+				<End Type="pcmportal.Fund" Multiplicity="*" Role="Fund"/>
+			</Association>
+			<Association Name="Partner_Loyalty">
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+				<End Type="pcmportal.Loyalty" Multiplicity="*" Role="Loyalty"/>
+			</Association>
+			<Association Name="Partner_PartnerAddress">
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+				<End Type="pcmportal.PartnerAddress" Multiplicity="*" Role="PartnerAddress"/>
+			</Association>
+			<Association Name="Partner_PartnerContact">
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+				<End Type="pcmportal.PartnerContact" Multiplicity="*" Role="PartnerContact"/>
+			</Association>
+			<Association Name="Partner_PartnerProgram">
+				<End Type="pcmportal.PartnerProgram" Multiplicity="*" Role="PartnerProgram"/>
+				<End Type="pcmportal.Partner" Multiplicity="1" Role="Partner"/>
+			</Association>
+			<Association Name="ProductCategory_ProductCategoryDescription">
+				<End Type="pcmportal.ProductCategory" Multiplicity="1" Role="ProductCategory"/>
+				<End Type="pcmportal.ProductCategoryDescription" Multiplicity="*" Role="ProductCategoryDescription"/>
+			</Association>
+			<Association Name="Products_ProductCategory">
+				<End Type="pcmportal.ProductCategory" Multiplicity="*" Role="ProductCategory"/>
+				<End Type="pcmportal.Products" Multiplicity="1" Role="Products"/>
+			</Association>
+			<Association Name="Products_ProductDescription">
+				<End Type="pcmportal.ProductDescription" Multiplicity="*" Role="ProductDescription"/>
+				<End Type="pcmportal.Products" Multiplicity="1" Role="Products"/>
+			</Association>
+			<Association Name="TaskInvolvedParties_AppointmentAddress">
+				<End Type="pcmportal.TaskInvolvedParties" Multiplicity="1" Role="TaskInvolvedParties"/>
+				<End Type="pcmportal.AppointmentAddress" Multiplicity="*" Role="AppointmentAddress"/>
+			</Association>
+			<Association Name="TaskInvolvedParties_TaskAddress">
+				<End Type="pcmportal.TaskInvolvedParties" Multiplicity="1" Role="TaskInvolvedParties"/>
+				<End Type="pcmportal.TaskAddress" Multiplicity="*" Role="TaskAddress"/>
+			</Association>
+			<Association Name="Task_TaskAttachments">
+				<End Type="pcmportal.Task" Multiplicity="1" Role="Task"/>
+				<End Type="pcmportal.TaskAttachments" Multiplicity="*" Role="TaskAttachments"/>
+			</Association>
+			<Association Name="Task_TaskInvolvedParties">
+				<End Type="pcmportal.TaskInvolvedParties" Multiplicity="*" Role="TaskInvolvedParties"/>
+				<End Type="pcmportal.Task" Multiplicity="1" Role="Task"/>
+			</Association>
+			<Association Name="Task_TaskNotes">
+				<End Type="pcmportal.Task" Multiplicity="1" Role="Task"/>
+				<End Type="pcmportal.TaskNotes" Multiplicity="*" Role="TaskNotes"/>
+			</Association>
+			<EntityContainer Name="pcmportal" m:IsDefaultEntityContainer="true">
+				<EntitySet Name="AccountAddressCollection" EntityType="pcmportal.AccountAddress" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AccountCollection" EntityType="pcmportal.Account" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AppointmentAddressCollection" EntityType="pcmportal.AppointmentAddress" sap:creatable="false" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AppointmentAttachmentsCollection" EntityType="pcmportal.AppointmentAttachments" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AppointmentInvolvedPartiesCollection" EntityType="pcmportal.AppointmentInvolvedParties" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AppointmentNotesCollection" EntityType="pcmportal.AppointmentNotes" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="AppointmentsCollection" EntityType="pcmportal.Appointments" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="FundCollection" EntityType="pcmportal.Fund" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadAttachmentsCollection" EntityType="pcmportal.LeadAttachments" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadCollection" EntityType="pcmportal.Lead" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadContactCollection" EntityType="pcmportal.LeadContact" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadInvolvedPartiesCollection" EntityType="pcmportal.LeadInvolvedParties" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadItemCollection" EntityType="pcmportal.LeadItem" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LeadSalesAndMarketingTeamCollection" EntityType="pcmportal.LeadSalesAndMarketingTeam" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="LoyaltyCollection" EntityType="pcmportal.Loyalty" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityAttachmentsCollection" EntityType="pcmportal.OpportunityAttachments" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityCollection" EntityType="pcmportal.Opportunity" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityCompetitorsCollection" EntityType="pcmportal.OpportunityCompetitors" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityContactCollection" EntityType="pcmportal.OpportunityContact" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityInvolvedPartiesCollection" EntityType="pcmportal.OpportunityInvolvedParties" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityItemCollection" EntityType="pcmportal.OpportunityItem" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunityNotesCollection" EntityType="pcmportal.OpportunityNotes" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="OpportunitySalesTeamCollection" EntityType="pcmportal.OpportunitySalesTeam" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerAddressCollection" EntityType="pcmportal.PartnerAddress" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerCollection" EntityType="pcmportal.Partner" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerContactAddressCollection" EntityType="pcmportal.PartnerContactAddress" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerContactCollection" EntityType="pcmportal.PartnerContact" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerOnboardingIndustryCollection" EntityType="pcmportal.PartnerOnboardingIndustry" sap:creatable="false" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerOnboardingRequestCollection" EntityType="pcmportal.PartnerOnboardingRequest" sap:creatable="true" sap:updatable="true" sap:deletable="false"/>
+				<EntitySet Name="PartnerOnboardingTextCollection" EntityType="pcmportal.PartnerOnboardingText" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerProductDimensionCollection" EntityType="pcmportal.PartnerProductDimension" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="PartnerProgramCollection" EntityType="pcmportal.PartnerProgram" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="ProductCategoryCollection" EntityType="pcmportal.ProductCategory" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="ProductCategoryDescriptionCollection" EntityType="pcmportal.ProductCategoryDescription" sap:creatable="false" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="ProductDescriptionCollection" EntityType="pcmportal.ProductDescription" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="ProductsCollection" EntityType="pcmportal.Products" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="TaskAddressCollection" EntityType="pcmportal.TaskAddress" sap:creatable="false" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="TaskAttachmentsCollection" EntityType="pcmportal.TaskAttachments" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="TaskCollection" EntityType="pcmportal.Task" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="TaskInvolvedPartiesCollection" EntityType="pcmportal.TaskInvolvedParties" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<EntitySet Name="TaskNotesCollection" EntityType="pcmportal.TaskNotes" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+				<AssociationSet Name="AccountCollection_AccountAddressCollection" Association="pcmportal.Account_AccountAddress" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="AccountCollection" Role="Account"/>
+					<End EntitySet="AccountAddressCollection" Role="AccountAddress"/>
+				</AssociationSet>
+				<AssociationSet Name="AppointmentsCollection_AppointmentAttachmentsCollection" Association="pcmportal.Appointments_AppointmentAttachments" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="AppointmentsCollection" Role="Appointments"/>
+					<End EntitySet="AppointmentAttachmentsCollection" Role="AppointmentAttachments"/>
+				</AssociationSet>
+				<AssociationSet Name="AppointmentsCollection_AppointmentInvolvedPartiesCollection" Association="pcmportal.Appointments_AppointmentInvolvedParties" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="AppointmentsCollection" Role="Appointments"/>
+					<End EntitySet="AppointmentInvolvedPartiesCollection" Role="AppointmentInvolvedParties"/>
+				</AssociationSet>
+				<AssociationSet Name="AppointmentsCollection_AppointmentNotesCollection" Association="pcmportal.Appointments_AppointmentNotes" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="AppointmentsCollection" Role="Appointments"/>
+					<End EntitySet="AppointmentNotesCollection" Role="AppointmentNotes"/>
+				</AssociationSet>
+				<AssociationSet Name="LeadCollection_LeadAttachmentsCollection" Association="pcmportal.Lead_LeadAttachments" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="LeadCollection" Role="Lead"/>
+					<End EntitySet="LeadAttachmentsCollection" Role="LeadAttachments"/>
+				</AssociationSet>
+				<AssociationSet Name="LeadContactCollection_LeadCollection" Association="pcmportal.Lead_LeadContact" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="LeadContactCollection" Role="LeadContact"/>
+					<End EntitySet="LeadCollection" Role="Lead"/>
+				</AssociationSet>
+				<AssociationSet Name="LeadInvolvedPartiesCollection_LeadCollection" Association="pcmportal.Lead_LeadInvolvedParties" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="LeadInvolvedPartiesCollection" Role="LeadInvolvedParties"/>
+					<End EntitySet="LeadCollection" Role="Lead"/>
+				</AssociationSet>
+				<AssociationSet Name="LeadItemCollection_LeadCollection" Association="pcmportal.Lead_LeadItem" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="LeadItemCollection" Role="LeadItem"/>
+					<End EntitySet="LeadCollection" Role="Lead"/>
+				</AssociationSet>
+				<AssociationSet Name="LeadSalesAndMarketingTeamCollection_LeadCollection" Association="pcmportal.Lead_LeadSalesAndMarketingTeam" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="LeadSalesAndMarketingTeamCollection" Role="LeadSalesAndMarketingTeam"/>
+					<End EntitySet="LeadCollection" Role="Lead"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityCollection_OpportunityAttachmentsCollection" Association="pcmportal.Opportunity_OpportunityAttachments" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+					<End EntitySet="OpportunityAttachmentsCollection" Role="OpportunityAttachments"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityCollection_OpportunityNotesCollection" Association="pcmportal.Opportunity_OpportunityNotes" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+					<End EntitySet="OpportunityNotesCollection" Role="OpportunityNotes"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityCompetitorsCollection_OpportunityCollection" Association="pcmportal.Opportunity_OpportunityCompetitors" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityCompetitorsCollection" Role="OpportunityCompetitors"/>
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityContactCollection_OpportunityCollection" Association="pcmportal.Opportunity_OpportunityContact" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityContactCollection" Role="OpportunityContact"/>
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityInvolvedPartiesCollection_OpportunityCollection" Association="pcmportal.Opportunity_OpportunityInvolvedParties" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityInvolvedPartiesCollection" Role="OpportunityInvolvedParties"/>
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunityItemCollection_OpportunityCollection" Association="pcmportal.Opportunity_OpportunityItem" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunityItemCollection" Role="OpportunityItem"/>
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+				</AssociationSet>
+				<AssociationSet Name="OpportunitySalesTeamCollection_OpportunityCollection" Association="pcmportal.Opportunity_OpportunitySalesTeam" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="OpportunitySalesTeamCollection" Role="OpportunitySalesTeam"/>
+					<End EntitySet="OpportunityCollection" Role="Opportunity"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerCollection_FundCollection" Association=".Partner_Fund">
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+					<End EntitySet="FundCollection" Role="Fund"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerCollection_LoyaltyCollection" Association=".Partner_Loyalty">
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+					<End EntitySet="LoyaltyCollection" Role="Loyalty"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerCollection_PartnerAddressCollection" Association="pcmportal.Partner_PartnerAddress" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+					<End EntitySet="PartnerAddressCollection" Role="PartnerAddress"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerCollection_PartnerContactCollection" Association=".Partner_PartnerContact">
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+					<End EntitySet="PartnerContactCollection" Role="PartnerContact"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerContactCollection_PartnerCollection" Association=".PartnerContact_Partner">
+					<End EntitySet="PartnerContactCollection" Role="PartnerContact"/>
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerContactCollection_PartnerContactAddressCollection" Association="pcmportal.PartnerContact_PartnerContactAddress" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerContactCollection" Role="PartnerContact"/>
+					<End EntitySet="PartnerContactAddressCollection" Role="PartnerContactAddress"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerOnboardingRequestCollection_PartnerOnboardingIndustryCollection" Association="pcmportal.PartnerOnboardingRequest_PartnerOnboardingIndustry" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerOnboardingRequestCollection" Role="PartnerOnboardingRequest"/>
+					<End EntitySet="PartnerOnboardingIndustryCollection" Role="PartnerOnboardingIndustry"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerOnboardingRequestCollection_PartnerOnboardingTextCollection" Association="pcmportal.PartnerOnboardingRequest_PartnerOnboardingText" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerOnboardingRequestCollection" Role="PartnerOnboardingRequest"/>
+					<End EntitySet="PartnerOnboardingTextCollection" Role="PartnerOnboardingText"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerProductDimensionCollection_PartnerProgramCollection" Association="pcmportal.PartnerProgram_PartnerProductDimension" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerProductDimensionCollection" Role="PartnerProductDimension"/>
+					<End EntitySet="PartnerProgramCollection" Role="PartnerProgram"/>
+				</AssociationSet>
+				<AssociationSet Name="PartnerProgramCollection_PartnerCollection" Association="pcmportal.Partner_PartnerProgram" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="PartnerProgramCollection" Role="PartnerProgram"/>
+					<End EntitySet="PartnerCollection" Role="Partner"/>
+				</AssociationSet>
+				<AssociationSet Name="ProductCategoryCollection_ProductCategoryDescriptionCollection" Association="pcmportal.ProductCategory_ProductCategoryDescription" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="ProductCategoryCollection" Role="ProductCategory"/>
+					<End EntitySet="ProductCategoryDescriptionCollection" Role="ProductCategoryDescription"/>
+				</AssociationSet>
+				<AssociationSet Name="ProductCategoryCollection_ProductsCollection" Association="pcmportal.Products_ProductCategory" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="ProductCategoryCollection" Role="ProductCategory"/>
+					<End EntitySet="ProductsCollection" Role="Products"/>
+				</AssociationSet>
+				<AssociationSet Name="ProductDescriptionCollection_ProductsCollection" Association="pcmportal.Products_ProductDescription" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="ProductDescriptionCollection" Role="ProductDescription"/>
+					<End EntitySet="ProductsCollection" Role="Products"/>
+				</AssociationSet>
+				<AssociationSet Name="TaskCollection_TaskAttachmentsCollection" Association="pcmportal.Task_TaskAttachments" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="TaskCollection" Role="Task"/>
+					<End EntitySet="TaskAttachmentsCollection" Role="TaskAttachments"/>
+				</AssociationSet>
+				<AssociationSet Name="TaskCollection_TaskNotesCollection" Association="pcmportal.Task_TaskNotes" sap:creatable="true" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="TaskCollection" Role="Task"/>
+					<End EntitySet="TaskNotesCollection" Role="TaskNotes"/>
+				</AssociationSet>
+				<AssociationSet Name="TaskInvolvedPartiesCollection_AppointmentAddressCollection" Association="pcmportal.TaskInvolvedParties_AppointmentAddress" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="TaskInvolvedPartiesCollection" Role="TaskInvolvedParties"/>
+					<End EntitySet="AppointmentAddressCollection" Role="AppointmentAddress"/>
+				</AssociationSet>
+				<AssociationSet Name="TaskInvolvedPartiesCollection_TaskAddressCollection" Association="pcmportal.TaskInvolvedParties_TaskAddress" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="TaskInvolvedPartiesCollection" Role="TaskInvolvedParties"/>
+					<End EntitySet="TaskAddressCollection" Role="TaskAddress"/>
+				</AssociationSet>
+				<AssociationSet Name="TaskInvolvedPartiesCollection_TaskCollection" Association="pcmportal.Task_TaskInvolvedParties" sap:creatable="false" sap:updatable="false" sap:deletable="false">
+					<End EntitySet="TaskInvolvedPartiesCollection" Role="TaskInvolvedParties"/>
+					<End EntitySet="TaskCollection" Role="Task"/>
+				</AssociationSet>
+				<FunctionImport Name="create_contact" ReturnType="Edm.Boolean" EntitySet="PartnerContactCollection" m:HttpMethod="POST">
+					<Parameter Name="first_name" Type="Edm.String"/>
+					<Parameter Name="last_name" Type="Edm.String"/>
+					<Parameter Name="invitee_email" Type="Edm.String"/>
+				</FunctionImport>
+				<FunctionImport Name="activate_contact" ReturnType="Edm.Boolean" EntitySet="PartnerContactCollection" m:HttpMethod="POST">
+					<Parameter Name="country" Type="Edm.String"/>
+					<Parameter Name="house_number" Type="Edm.String"/>
+					<Parameter Name="street" Type="Edm.String"/>
+					<Parameter Name="city" Type="Edm.String"/>
+					<Parameter Name="state" Type="Edm.String"/>
+					<Parameter Name="postal_code" Type="Edm.String"/>
+					<Parameter Name="building" Type="Edm.String"/>
+					<Parameter Name="room" Type="Edm.String"/>
+					<Parameter Name="floor" Type="Edm.String"/>
+				</FunctionImport>
+				<FunctionImport Name="delete_contact" ReturnType="Edm.Boolean" EntitySet="PartnerContactCollection" m:HttpMethod="POST">
+					<Parameter Name="invitee_email" Type="Edm.String"/>
+				</FunctionImport>
+				<FunctionImport Name="get_partner" ReturnType="pcmportal.Partner" EntitySet="PartnerCollection" m:HttpMethod="GET"/>
+				<FunctionImport Name="get_partner_contact" ReturnType="pcmportal.PartnerContact" EntitySet="PartnerContactCollection" m:HttpMethod="GET"/>
+				<FunctionImport Name="notify_on_reg_n_wait_fr_aprvl" ReturnType="Edm.Boolean" EntitySet="PartnerOnboardingRequestCollection" m:HttpMethod="POST">
+					<Parameter Name="contact_email" Type="Edm.String"/>
+					<Parameter Name="callback_url" Type="Edm.String"/>
+					<Parameter Name="simulate_action" Type="Edm.String"/>
+				</FunctionImport>
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" type="text/css" href="stylesheet.css" media="all" />
+	<script src="/resources/sap-ui-core.js"
+			id="sap-ui-bootstrap"
+			data-sap-ui-libs="sap.m,sap.ui.commons"
+			data-sap-ui-theme="sap_bluecrystal"
+			data-sap-ui-xx-bindingSyntax="complex">
+	</script>
+</head>
+
+<body id="body" class="sapUiBody">			
+    <div id="tablediv" class="container"></div>
+    
+    <script>
+     jQuery.sap.registerModulePath("c4c.locale","/i18n");
+    jQuery.sap.registerModulePath("c4c.table-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local", '');
+    jQuery.sap.registerModulePath("c4c.table-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.remote","");
+    
+    var oComp = sap.ui.getCore().createComponent({
+                 name: "c4c.table-{{#toLowerCase currentBO.selectedBO}}{{/toLowerCase}}.local",
+                 id: "table",
+                 settings: {}
+        });
+    var oContainer = new sap.ui.core.ComponentContainer("container1", {
+        name: "tableContainer",
+        settings: {},
+        component: oComp
+    }).addStyleClass("container1");
+    
+    
+    
+    oContainer.placeAt("tablediv");
+    </script>
+</body>
+
+
+
+</html>

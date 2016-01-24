@@ -1,0 +1,58 @@
+(function(){
+    var controller;
+
+    sap.ui.getCore().attachInitEvent(function() {
+
+        sap.ui.localResources("view");
+        sap.ui.localResources("controller");
+        jQuery.sap.require("sap.ui.core.EventBus");
+        
+        var targetEntity = window._generalNameSpace.businessObject.targetEntity;
+                          
+        
+        var appEventsBus = new sap.ui.core.EventBus(),
+           
+            view = sap.ui.view({
+                    viewName: "c4c.create-{{currentBO.selectedBO}}.local.view.table",
+                    type: sap.ui.core.mvc.ViewType.XML,
+                    viewData: {
+                            targetEntity: targetEntity,
+                            appEventsBus:appEventsBus,
+                            growingThreshold: window._generalNameSpace.businessObject.growingThreshold,
+                            detailsPageAlias: window._generalNameSpace.businessObject.detailsPageAlias
+                        }
+            });
+            
+        controller = view.getController();   
+        if (!window.gadgets) {
+            controller.loadModelData();
+        }
+
+        view.placeAt("content");
+
+    });
+
+    if (window.gadgets) {
+        //Widget in Cloud Portal
+        window.gadgets.sapcontext.registerOnContextLoad(function subscribe() {
+            window.gadgets.sapcontext.subscribe(function subscribeToContext(topic, context) {
+
+                var term = context.getPropertyByKey("publishReq"),
+                    ctx = term.sort(function (a, b) { return b.timestamp - a.timestamp; })[0],
+                    queryId;
+
+                if (ctx && ctx.name === targetEntity)   {
+                    queryId = ctx.value;
+                    controller.loadModelData(queryId);
+                    controller.setQueryComboBoxSelection(queryId);
+                }
+
+                if (!controller.hasContent) {
+                    controller.loadModelData();
+                    controller.setQueryComboBoxSelection();
+                }
+            });
+        });
+    }
+}());
+  
